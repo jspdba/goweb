@@ -19,22 +19,23 @@
 <body>
 <div class="container">
     <h1>添加/编辑</h1>
-    <form role="form">
+    <form id="Link" action="/link/save" role="form" method="post">
+        <input id="Id" name="Id" type="hidden" value="">
         <div class="form-group">
             <label for="url">链接地址</label>
-            <input type="text" class="form-control" id="url" name="url" placeholder="http(s)://">
+            <input type="text" class="form-control" id="Url" name="Url" placeholder="http(s)://" value="">
         </div>
         <div class="form-group">
             <label for="title">标题</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="标题">
+            <input type="text" class="form-control" id="Title" name="Title" placeholder="标题">
         </div>
         <div class="form-group">
             <label for="description">描述</label>
-            <input type="text" class="form-control" id="description" placeholder="描述">
+            <input type="text" class="form-control" id="Description" name="Description" placeholder="描述">
         </div>
         <div class="form-group">
             <label for="tags">标签</label>
-            <input type="text" class="form-control" id="tags" name="tags" placeholder="标签">
+            <input type="text" class="form-control" id="Tags.Name" name="Tags.Name" placeholder="标签">
         </div>
         <a href="javascript:void(0)" class="btn btn-default urlInfo">获取信息</a>
         <button type="submit" class="btn btn-default">提交</button>
@@ -48,15 +49,16 @@
     $(".urlInfo").bind("click",function(){
         var url="/link/info";
         var data={
-            url:$("#url").val()
+            url:$("#Url").val()
         }
 
         if(data.url){
             $.getJSON(url,data,function (data) {
-                console.log(data)
-                if(data && data.status==0){
-                    data.title && $("#title").val(data.title);
-                    data.description && $("#description").val(data.description);
+                if(data && data.code==0){
+                    data.data.title && $("#Title").val(data.data.title);
+                    data.data.description && $("#Description").val(data.data.description);
+                }else{
+                    console.log(data.msg,data.code)
                 }
             })
         }

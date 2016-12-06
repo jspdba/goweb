@@ -5,7 +5,9 @@ import (
 	"strings"
 	"github.com/astaxie/beego/logs"
 	"github.com/PuerkitoBio/goquery"
-	"crypto/tls"
+	"fmt"
+	"github.com/astaxie/beego/orm"
+	"web/models"
 )
 
 type LinkController struct {
@@ -36,6 +38,26 @@ func(this *LinkController) Edit(){
 }
 // @router /link/save [post]
 func(this *LinkController) Save(){
+	o := orm.NewOrm()
+	link := models.Link{}
+	if err := this.ParseForm(&link); err != nil {
+		//handle error
+		logs.Error(err)
+	}
+	fmt.Println("++++++++++++++++++")
+	fmt.Println(link)
+	fmt.Println("++++++++++++++++++")
+	// 三个返回参数依次为：是否新创建的，对象Id值，错误
+	if created, id, err := o.ReadOrCreate(&link, "Url"); err == nil {
+		if created {
+			fmt.Println("New Insert an object. Id:", id)
+		} else {
+			fmt.Println("Get an object. Id:", id)
+		}
+	}else{
+		logs.Error(err)
+	}
+	this.Redirect("/link/list",200)
 }
 // @router /link/delete/:id
 func(this *LinkController) Delete(){
@@ -53,6 +75,7 @@ func(this *LinkController) Info(){
 		if !strings.HasPrefix(url,"http://") && !strings.HasPrefix(url,"https://"){
 			url = "http://"+url
 		}
+		fmt.Println(url)
 		this.Data["json"] = JsonObj{Code:0,Data:getUrlInfo(url)}
 	}
 	this.ServeJSON()
