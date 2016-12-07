@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"strings"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beego/orm"
 	"web/models"
 )
 
@@ -36,37 +35,12 @@ func(this *LinkController) Edit(){
 }
 // @router /link/save [post]
 func(this *LinkController) Save(){
-	o := orm.NewOrm()
 	link := models.Link{}
 	if err := this.ParseForm(&link); err != nil {
-		//handle error
 		beego.Error(err)
 	}
 	tags:=this.GetString("Tags.Name")
-	if tags!=""{
-		tagArr:=strings.Split(tags,",")
-		link.Tags=make([]*models.Tag,len(tagArr))
-		for index,name := range tagArr{
-			tag:=new(models.Tag)
-			tag.Name=name
-			if _, id, err := o.ReadOrCreate(tag, "Name"); err == nil {
-				tag.Id=int(id)
-				link.Tags[index]=tag
-			}
-		}
-	}
-	// 三个返回参数依次为：是否新创建的，对象Id值，错误
-	if _, _, err := o.ReadOrCreate(&link, "Url"); err != nil {
-		m2m := o.QueryM2M(&link, "Tags")
-		if len(link.Tags)>0{
-			if _,err := m2m.Add(link.Tags); err!=nil{
-				beego.Error(err)
-			}
-		}
-	}else{
-		beego.Error(err)
-	}
-
+	models.LinkReadOrCreate(&link,tags)
 	this.Redirect("/link/list",302)
 }
 // @router /link/delete/:id
