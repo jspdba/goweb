@@ -51,6 +51,9 @@ func (this *LinkController) Delete() {
 
 // @router /link/list
 func (this *LinkController) List() {
+	page := models.LinkPage(1,20)
+	this.Data["page"] = page
+	//https://beego.me/docs/utils/page.md
 	this.TplName = "link/list.tpl"
 }
 
@@ -82,18 +85,3 @@ func getUrlInfo(url string) (data *Data) {
 	}
 	return data
 }
-
-/*func getUrlInfo(url string) (data Data){
-	req:=httplib.Get(url).Debug(true).SetTimeout(10 * time.Second, 3 * time.Second)
-	if url!=""{
-		if strings.HasPrefix(url,"https://"){
-			req.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
-		}
-	}
-	result,error:=req.String()
-	if error!=nil{
-		beego.Error(error)
-	}
-	beego.Info(result)
-	return data
-}*/

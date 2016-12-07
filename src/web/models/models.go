@@ -5,6 +5,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	"strings"
 	"time"
+	"web/utils"
+	"strconv"
 )
 
 //收藏的链接
@@ -68,6 +70,19 @@ func LinkReadOrCreate(link *Link, tags string) {
 	} else {
 		beego.Error(err)
 	}
+}
+
+
+//https://github.com/lyonlai/bootstrap-paginator
+func LinkPage(p int, size int) utils.Page{
+	o := orm.NewOrm()
+	var link Link
+	var list []Link
+	qs := o.QueryTable(link)
+	count, _ := qs.Limit(-1).Count()
+	qs.RelatedSel().OrderBy("-ModifyDate").Limit(size).Offset((p - 1) * size).All(&list)
+	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
+	return utils.PageUtil(c, p, size, list)
 }
 
 func init() {
