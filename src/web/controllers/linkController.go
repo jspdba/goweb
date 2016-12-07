@@ -3,9 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"strings"
-	"github.com/astaxie/beego/logs"
 	"github.com/PuerkitoBio/goquery"
-	"fmt"
 	"github.com/astaxie/beego/orm"
 	"web/models"
 )
@@ -42,22 +40,34 @@ func(this *LinkController) Save(){
 	link := models.Link{}
 	if err := this.ParseForm(&link); err != nil {
 		//handle error
-		logs.Error(err)
+		beego.Error(err)
 	}
-	fmt.Println("++++++++++++++++++")
-	fmt.Println(link)
-	fmt.Println("++++++++++++++++++")
+	tags:=this.GetString("Tags.Name")
+	if tags!=""{
+		tagArr:=strings.Split(tags,",")
+		link.Tags=make([]*models.Tag,len(tagArr))
+		for index,name := range tagArr{
+			tag:=new(models.Tag)
+			tag.Name=name
+			if _, id, err := o.ReadOrCreate(tag, "Name"); err == nil {
+				tag.Id=int(id)
+				link.Tags[index]=tag
+			}
+		}
+	}
 	// 三个返回参数依次为：是否新创建的，对象Id值，错误
-	if created, id, err := o.ReadOrCreate(&link, "Url"); err == nil {
-		if created {
-			fmt.Println("New Insert an object. Id:", id)
-		} else {
-			fmt.Println("Get an object. Id:", id)
+	if _, _, err := o.ReadOrCreate(&link, "Url"); err != nil {
+		m2m := o.QueryM2M(&link, "Tags")
+		if len(link.Tags)>0{
+			if _,err := m2m.Add(link.Tags); err!=nil{
+				beego.Error(err)
+			}
 		}
 	}else{
-		logs.Error(err)
+		beego.Error(err)
 	}
-	this.Redirect("/link/list",200)
+
+	this.Redirect("/link/list",302)
 }
 // @router /link/delete/:id
 func(this *LinkController) Delete(){
@@ -75,7 +85,7 @@ func(this *LinkController) Info(){
 		if !strings.HasPrefix(url,"http://") && !strings.HasPrefix(url,"https://"){
 			url = "http://"+url
 		}
-		fmt.Println(url)
+		beego.Info(url)
 		this.Data["json"] = JsonObj{Code:0,Data:getUrlInfo(url)}
 	}
 	this.ServeJSON()
@@ -84,7 +94,7 @@ func(this *LinkController) Info(){
 func getUrlInfo(url string) (data *Data){
 	doc, err := goquery.NewDocument(url)
 	if err!=nil{
-		logs.Error(err)
+		beego.Error(err)
 		return &Data{}
 	}
 	if doc!=nil{
@@ -104,8 +114,8 @@ func getUrlInfo(url string) (data *Data){
 	}
 	result,error:=req.String()
 	if error!=nil{
-		logs.Error(error)
+		beego.Error(error)
 	}
-	fmt.Println(result)
+	beego.Info(result)
 	return data
 }*/
