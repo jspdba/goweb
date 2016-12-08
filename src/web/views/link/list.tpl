@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>edit</title>
+    <title>收藏列表</title>
 
     <!-- Bootstrap -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -18,15 +18,20 @@
 </head>
 <body>
 <div class="container">
-    <h1>列表</h1>
-    <ul class="list-group">
-        {{range .page.List}}
-        <li class="list-group-item">
-            <a href="{{.Url}}" title="{{.Description | html}}" target="_blank">{{.Title}}</a>
-        </li>
-        {{end}}
-    </ul>
-    <ul id="page"></ul>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="title"><a href="/link/edit" class="btn btn-primary">添加</a></div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                {{range .page.List}}
+                <li class="list-group-item">
+                    <a href="{{.Url}}" title="{{.Description | html}}" target="_blank">{{.Title}}</a>
+                </li>
+                {{end}}
+            </ul>
+        <ul id="page"></ul>
+        </div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -40,6 +45,7 @@
         pageNo=pageNo?pageNo:1
         var totalPage=parseInt("{{.page.TotalPage}}");
         totalPage=totalPage?totalPage:0
+        pageNo = pageNo>totalPage?totalPage:1
 
         $("#page").bootstrapPaginator({
             currentPage: pageNo,
