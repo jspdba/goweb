@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"strings"
 	"web/models"
+	"web/utils"
 )
 
 type LinkController struct {
@@ -49,11 +50,14 @@ func (this *LinkController) Save() {
 func (this *LinkController) Delete() {
 }
 
+// https://beego.me/docs/utils/page.md
 // @router /link/list
 func (this *LinkController) List() {
-	page := models.LinkPage(1,20)
-	this.Data["page"] = page
-	//https://beego.me/docs/utils/page.md
+	page:=utils.Page{PageNo:1,PageSize:20}
+	if err := this.ParseForm(&page); err != nil {
+		beego.Error(err)
+	}
+	this.Data["page"] = models.LinkPage(page.PageNo,page.PageSize)
 	this.TplName = "link/list.tpl"
 }
 
