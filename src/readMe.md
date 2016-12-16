@@ -31,3 +31,19 @@
     https://www.oschina.net/question/566882_212351
 	从https://github.com/golang/net下载，然后把目录改成golang.org/x/net。然后，万事大吉。
     ps：有git的话可以直接 go get github.com/golang/net，没有的话自己手动下载放到src目录下即可
+##go下载地址
+    [go 下载地址](https://golang.org/dl/)
+##go 安装
+    [go 安装](https://golang.org/doc/install)
+- tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+- vi /etc/profile
+- export PATH=$PATH:/usr/local/go/bin
+- 或者(如果是其它目录)
+    export GOROOT=/usr/local/go
+    export PATH=$PATH:$GOROOT/bin
+- export GOPATH=/opt/go/webapp
+##beego
+###bee 工具的安装
+- 您可以通过如下的方式安装 bee 工具：
+- go get github.com/beego/bee   
+    bee可执行文件默认存放在$GOPATH/bin里面，所以您需要把$GOPATH/bin添加到您的环境变量中，才可以进行下一步
