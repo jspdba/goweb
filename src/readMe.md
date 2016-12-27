@@ -47,3 +47,47 @@
 - 您可以通过如下的方式安装 bee 工具：
 - go get github.com/beego/bee   
     bee可执行文件默认存放在$GOPATH/bin里面，所以您需要把$GOPATH/bin添加到您的环境变量中，才可以进行下一步
+## go 交叉编译
+[参考](http://www.tuicool.com/articles/fyumIzn)
+### 在Go根目录下的src目录，新建一个build.bat文件，并复制内容如下
+    set CGO_ENABLED=0
+    set GOROOT_BOOTSTRAP=C:/Go
+    ::x86块
+    set GOARCH=386
+    set GOOS=windows
+    call make.bat --no-clean
+      
+    set GOOS=linux
+    call make.bat --no-clean
+      
+    set GOOS=freebsd
+    call make.bat --no-clean
+      
+    set GOOS=darwin
+    call make.bat --no-clean
+    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+      
+    ::x64块
+    set GOARCH=amd64
+    set GOOS=linux
+    call make.bat --no-clean
+    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+      
+    ::arm块
+    set GOARCH=arm
+    set GOOS=linux
+    call make.bat --no-clean
+    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+      
+    set GOARCH=386
+    set GOOS=windows
+    go get github.com/nsf/gocode
+    pause
+###执行 build.bat
+    完成后，在cmd命令行下依次执行：
+    set GOOS=linux
+    set GOPACH=amd64
+    go build -o -x APPNAME main.go
+    编译后的文件会出现在main.go相应的目录下。
+#访问服务器
+    [web服务器](http://182.92.85.72:8888/link/edit)

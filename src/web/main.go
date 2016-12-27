@@ -9,9 +9,6 @@ import (
 )
 
 func init() {
-	orm.RegisterDriver("mysql",orm.DRMySQL)
-	orm.RegisterDataBase("default","mysql","root:wuchaofei@/beego?charset=utf8")
-
 	/*// 数据库别名
 	name := "default"
 
@@ -25,7 +22,14 @@ func init() {
 	err := orm.RunSyncdb(name, force, verbose)
 	if err != nil {
 		fmt.Println(err)
-	}*/
+	}
+
+	orm.RegisterDriver("mysql",orm.DRMySQL)
+	orm.RegisterDataBase("default","mysql","root:wuchaofei@/beego?charset=utf8")*/
+
+	orm.RegisterDriver("mysql",orm.DRMySQL)
+	orm.RegisterDataBase("default", "mysql", beego.AppConfig.String("mysqluser") + ":" + beego.AppConfig.String("mysqlpass") + "@/beego?charset=utf8", 30)
+	orm.RunSyncdb("default", false, true)
 }
 
 func main() {

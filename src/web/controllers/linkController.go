@@ -41,6 +41,10 @@ func (this *LinkController) Save() {
 	if err := this.ParseForm(&link); err != nil {
 		beego.Error(err)
 	}
+	if !strings.HasPrefix(link.Url,"http") {
+		link.Url="http://"+link.Url
+	}
+
 	tags := this.GetString("Tags.Name")
 	models.LinkReadOrCreate(&link, tags)
 	this.Redirect("/link/list", 302)
