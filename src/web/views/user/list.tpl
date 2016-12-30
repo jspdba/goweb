@@ -1,4 +1,4 @@
-{{template "../header.tpl"}}
+{{template "../header.tpl" .}}
 <body>
 <div class="container">
     <div class="panel panel-primary">
@@ -9,7 +9,7 @@
             <ul class="list-group">
                 {{range .page.List}}
                 <li class="list-group-item">
-                    <a href="{{.Url}}" title="{{.Description | html}}" target="_blank">{{.Title}}</a>
+                    {{.Username}}:{{.Password}}
                 </li>
                 {{end}}
             </ul>
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    {{template "../footer.tpl"}}
+    {{template "../footer.tpl" .}}
     <script type="text/javascript" src="/static/js/bootstrap-paginator.min.js"></script>
     <script type="text/javascript">
         $(function () {

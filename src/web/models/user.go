@@ -5,16 +5,18 @@ import (
 	"github.com/astaxie/beego/orm"
 	"strconv"
 	"web/utils"
+	"github.com/astaxie/beego"
 )
 
 //用户entity
 type User struct {
-	Id int				`orm:"auto"`
-	Username string
+	Id int				`orm:"pk;auto"`
+	Token     string 		`orm:"unique"`
+	Username string			`orm:"unique"`
 	Password string
-	Mobile string			`orm:"null;"`
+	Mobile string			`orm:"null"`
 	Status int			`orm:"default(0)"`	//用户状态(0=正常，1=停用)
-	Mail string			`orm:"null;"`
+	Mail string			`orm:"null"`
 	CreateDate  time.Time 		`orm:"auto_now_add;type(datetime)"`
 	ModifyDate  time.Time 		`orm:"auto_now;type(datetime)"`
 }
@@ -30,6 +32,28 @@ func Page(p int, size int) utils.Page{
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }
+
+func Login(username string, password string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("Username", username).Filter("Password", password).One(&user)
+	return err != orm.ErrNoRows, user
+}
+func FindUserByUserName(username string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("Username", username).One(&user)
+	return err != orm.ErrNoRows, user
+}
+func FindUserByToken(token string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("Token", token).One(&user)
+	return err != orm.ErrNoRows, user
+}
+
+
+
 func init() {
 	// 需要在init中注册定义的model
 	//maxIdle := 30
