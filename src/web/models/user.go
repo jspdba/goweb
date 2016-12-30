@@ -5,7 +5,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	"strconv"
 	"web/utils"
-	"github.com/astaxie/beego"
+	"crypto/md5"
+	"encoding/hex"
 )
 
 //用户entity
@@ -17,6 +18,7 @@ type User struct {
 	Mobile string			`orm:"null"`
 	Status int			`orm:"default(0)"`	//用户状态(0=正常，1=停用)
 	Mail string			`orm:"null"`
+	Avatar string			`orm:"type(text);default(/static/img/avatar.png)"`
 	CreateDate  time.Time 		`orm:"auto_now_add;type(datetime)"`
 	ModifyDate  time.Time 		`orm:"auto_now;type(datetime)"`
 }
@@ -36,7 +38,9 @@ func Page(p int, size int) utils.Page{
 func Login(username string, password string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
-	err := o.QueryTable(user).Filter("Username", username).Filter("Password", password).One(&user)
+	h := md5.New()
+	h.Write([]byte(password))
+	err := o.QueryTable(user).Filter("Username", username).Filter("Password", hex.EncodeToString(h.Sum(nil))).One(&user)
 	return err != orm.ErrNoRows, user
 }
 func FindUserByUserName(username string) (bool, User) {
@@ -52,7 +56,11 @@ func FindUserByToken(token string) (bool, User) {
 	return err != orm.ErrNoRows, user
 }
 
-
+func SaveUser(user *User) int64 {
+	o := orm.NewOrm()
+	id, _ := o.Insert(user)
+	return id
+}
 
 func init() {
 	// 需要在init中注册定义的model
