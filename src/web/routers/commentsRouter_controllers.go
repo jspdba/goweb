@@ -6,6 +6,34 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
+			Method: "Edit",
+			Router: `/book/edit/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
+			Method: "SaveOrUpdate",
+			Router: `/book/save`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/book/delete/:id`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/book/list`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:LinkController"] = append(beego.GlobalControllerRouter["web/controllers:LinkController"],
 		beego.ControllerComments{
 			Method: "Edit",

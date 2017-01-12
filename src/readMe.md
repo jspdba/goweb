@@ -90,4 +90,10 @@
     go build -o -x APPNAME main.go
     编译后的文件会出现在main.go相应的目录下。
 #访问服务器
-    [web服务器](http://182.92.85.72:8888/link/edit)
+[web服务器](http://182.92.85.72:8888/link/edit)
+#UI
+[Flat ui-view](http://www.bootcss.com/p/flat-ui/)
+#文章
+[入门 elasticSearch](http://wiki.jikexueyuan.com/project/elasticsearch-definitive-guide-cn/)
+#chrome强制https访问解决办法
+    chrome://net-internals/#hsts

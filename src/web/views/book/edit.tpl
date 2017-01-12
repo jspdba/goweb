@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8">
-    <title>山顶洞</title>
+    <title>图书编辑</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
@@ -18,9 +18,9 @@
     <script src="/static/Flat-UI/dist/js/vendor/html5shiv.js"></script>
     <script src="/static/Flat-UI/dist/js/vendor/respond.min.js"></script>
     <![endif]-->
+
     <style>
         body {
-            min-height: 2000px;
             padding-top: 70px;
         }
     </style>
@@ -48,25 +48,53 @@
     </div>
 </div>
 
-
 <div class="container">
+    <h4>添加/修改图书</h4>
+    <form class="form-horizontal" role="form" action="/book/save" method="post">
+        <input type="hidden" name="Id" value="">
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="Title" name="Title" placeholder="标题">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="Maker" name="Maker" placeholder="作者">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="ChapterRules" name="ChapterRules" placeholder="章节规则">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="ContentRules" name="ContentRules" placeholder="内容规则">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="Url" name="Url" placeholder="图书地址">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" id="Content" name="Content" placeholder="描述"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">提交</button>
+    </form>
+</div><!-- /.container -->
 
-    <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>朋友们</h1>
-        <p>这是一个神奇的世界</p>
-        <p>来体验吧</p>
-        <p>
-            <a class="btn btn-large btn-primary" type="button" role="button">进入 &raquo;</a>
-        </p>
-    </div>
-
-</div> <!-- /container -->
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
+<script src="/static/Flat-UI/docs/assets/js/application.js"></script>
 
+<script>
+
+</script>
 </body>
 </html>
