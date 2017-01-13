@@ -48,20 +48,22 @@
     </div>
 </div>
 
-
 <div class="container">
-
-    <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>朋友们</h1>
-        <p>这是一个神奇的世界</p>
-        <p>来体验吧</p>
-        <p>
-            <a class="btn btn-large btn-primary" type="button" role="button">进入 &raquo;</a>
-        </p>
-    </div>
-
-</div> <!-- /container -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="title"><a href="{{urlfor "BookController.Edit"}}" class="btn btn-primary">添加</a></div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                {{range .page.List}}
+                <li class="list-group-item">
+                    <a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a>
+                </li>
+                {{end}}
+            </ul>
+            <ul id="page"></ul>
+        </div>
+</div>
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -97,3 +97,5 @@
 [入门 elasticSearch](http://wiki.jikexueyuan.com/project/elasticsearch-definitive-guide-cn/)
 #chrome强制https访问解决办法
     chrome://net-internals/#hsts
+    
+# 第 5854 个帖子的url： http://www.biquge.tw/0_671/4771809.html

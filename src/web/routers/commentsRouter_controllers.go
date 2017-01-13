@@ -23,7 +23,7 @@ func init() {
 	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
 		beego.ControllerComments{
 			Method: "Delete",
-			Router: `/book/delete/:id`,
+			Router: `/book/delete/:id([0-9]+)`,
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 

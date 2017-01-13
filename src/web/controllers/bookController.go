@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"web/models"
 	"web/utils"
+	"strconv"
 )
 
 type BookController struct {
@@ -19,6 +20,18 @@ func (this *BookController) URLMapping() {
 
 // @router /book/edit/:id([0-9]{0,}) [get]
 func (this *BookController) Edit() {
+	id:=this.Ctx.Input.Param(":id")
+	bk:= models.Book{}
+	if id!=""{
+		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
+			ok,book:=models.FindBookById(i)
+			beego.Info(book)
+			if ok{
+				bk=book
+			}
+		}
+	}
+	this.Data["entry"] = bk
 	this.TplName = "book/edit.tpl"
 }
 
@@ -32,8 +45,16 @@ func (this *BookController) SaveOrUpdate() {
 	this.Redirect("/book/list", 302)
 }
 
-// @router /book/delete/:id
-func (this *BookController) Delete() {
+// @router /book/delete/:id([0-9]+)
+func (this *BookController) Delete(){
+	id:=this.Ctx.Input.Param(":id")
+	if id!=""{
+		if i,err:=strconv.Atoi(id); err==nil{
+			book := models.Book{Id:i}
+			models.BookDelete(&book)
+		}
+
+	}
 }
 
 // @router /book/list
@@ -42,6 +63,6 @@ func (this *BookController) List() {
 	if err := this.ParseForm(&page); err != nil {
 		beego.Error(err)
 	}
-	this.Data["page"] = models.LinkPage(page.PageNo,page.PageSize)
+	this.Data["page"] = models.BookPage(page.PageNo,page.PageSize)
 	this.TplName = "book/list.tpl"
 }
