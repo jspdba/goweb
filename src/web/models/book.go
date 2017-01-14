@@ -23,6 +23,7 @@ type Book struct {
 
 type Chapter struct {
 	Id int			`orm:"auto"`
+	Url string		`orm:"null;type(text)"`
 	Index int		`orm:"null"`
 	Title string		`orm:"null;type(text)"`
 	Content string		`orm:"null;type(text)"`
