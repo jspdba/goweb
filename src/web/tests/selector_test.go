@@ -49,7 +49,7 @@ type KeyValues struct {
 }
 
 func Test_convert2Digit(t *testing.T) {
-	s:="十万零一十"
+	s:="十万一千一百"
 	keyValues := &KeyValues{}
 	keyValues.Keys = []string{"一","二","三","四","五","六","七","八","九","零"}
 	keyValues.Values = map[string]string{
@@ -67,6 +67,8 @@ func Test_convert2Digit(t *testing.T) {
 
 	unitKeyValues:=&KeyValues{}
 	unitKeyValues.Keys=[]string{"十","百","千","万"}
+
+
 	unitKeyValues.Values=map[string]string{
 		"十":"1",
 		"百":"2",
@@ -74,13 +76,15 @@ func Test_convert2Digit(t *testing.T) {
 		"万":"4",
 	}
 	s=addZero(s,unitKeyValues)
+	s=toDigits(s,keyValues.Values)
 	log.Println(s)
 }
 
 //补零算法
 func addZero(str string,unitKeyValues *KeyValues) string{
-	//s:="十万零一千零十"
-	for containsKey(str,unitKeyValues.Keys){
+
+	for isContainsAnyKey(str,unitKeyValues.Keys){
+		lastMaxLen := 0
 		for _,key:=range unitKeyValues.Keys{
 			if index:=strings.LastIndex(str,key); index>-1{
 				s1:=str[:index]
@@ -88,16 +92,64 @@ func addZero(str string,unitKeyValues *KeyValues) string{
 				no,_:=strconv.Atoi(unitKeyValues.Values[key])
 				if s2==""{
 					s2 += strings.Repeat("零",no)
+				}else{
+					zeroAddedCount :=no-len([]rune(s2))
+					log.Print("------",no,lastMaxLen,s1,s2)
+					if no < lastMaxLen{
+						log.Print("<<<<<<",no,lastMaxLen,s1,s2)
+						zeroAddedCount =lastMaxLen+no-len([]rune(s2))
+					}
+					if zeroAddedCount>0{
+						s2 = strings.Repeat("零",zeroAddedCount)+s2
+					}
 				}
-				//应该补几个零
+				if s1==""{
+					s1="一"
+				}
 				str=s1+s2
+				if no>=lastMaxLen{
+					lastMaxLen=no
+				}
 			}
 		}
 	}
 	return str
 }
+func Test_containsKeys(t *testing.T) {
+	s:="十万一千一百"
 
-func containsKey(str string,arr []string) bool {
+	unitKeyValues:=&KeyValues{}
+	unitKeyValues.Keys=[]string{"十","百","千","万"}
+
+
+	unitKeyValues.Values=map[string]string{
+		"十":"1",
+		"百":"2",
+		"千":"3",
+		"万":"4",
+	}
+	log.Print(containsKeys(s,unitKeyValues.Keys))
+}
+//翻转字符串
+func Reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+//提取包含的字符
+func containsKeys(str string,keys []string) []string{
+	ks:=[]string{}
+	for _,v:=range str{
+		if isContainsAnyKey(string(v),keys){
+			ks=append(ks,string(v))
+		}
+	}
+	return ks
+}
+
+func isContainsAnyKey(str string,arr []string) bool {
 	return strings.ContainsAny(str, strings.Join(arr,"&"))
 }
 //截取字符位置
