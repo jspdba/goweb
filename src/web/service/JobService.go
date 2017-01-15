@@ -1,7 +1,6 @@
 package service
 
 import (
-	"log"
 	"sync"
 	"web/models"
 	"strings"
@@ -27,13 +26,13 @@ func GetChapterContent(selector string,chapters  []*models.Chapter,threadsCount 
 	}else{
 		for start,i:=0,0;i<threadsCount;i++{
 			end:=start+itemCount
-			log.Println(start,end,lenChapters)
+			//log.Println(start,end,lenChapters)
 			wg.Add(1)
 			if end==lenChapters-1{
-				beego.Info(start,":")
+				//beego.Info(start,":")
 				go Download(&wg,chapters[start:],selector)
 			}else{
-				beego.Info(start,":",end)
+				//beego.Info(start,":",end)
 				go Download(&wg,chapters[start:end],selector)
 			}
 			start=end
@@ -56,15 +55,12 @@ func Download(wg *sync.WaitGroup,chapters []*models.Chapter,selector string){
 func DownloadOne(wg *sync.WaitGroup,chapter *models.Chapter,selector string){
 	defer wg.Done()
 	if chapter.Url!=""{
-		//log.Print(chapter.Url)
 		selector:="#content"
 		content:=GetContent(chapter.Url,selector)
-		//log.Print("进度=",(i+1)/len(chapters),content)
 		chapter.Content=content
-		//log.Print("下载内容=",content)
+		beego.Info("DownLoad="+chapter.Url)
 	}
 }
-
 
 func GetContent(url string, selector string) string{
 	doc, err := goquery.NewDocument(url)
