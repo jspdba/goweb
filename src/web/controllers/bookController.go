@@ -6,7 +6,6 @@ import (
 	"web/utils"
 	"strconv"
 	"web/service"
-	"log"
 )
 
 type BookController struct {
@@ -56,18 +55,18 @@ func (this *BookController) TaskUpdate() {
 			ok,book:=models.FindBookById(i)
 			if ok{
 				//更新章节
-				(func(book *models.Book){
+				go (func(book *models.Book){
 					if book!=nil{
 						//申请任务调度
 						if book.Url!=""{
-							chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,11)
+							chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,-1)
 							service.GetChapterContent(book.ContentRules,chapters,100)
 							for _,chapter := range chapters{
 								chapter.Book= book
 							}
-							log.Print("begin >>>>>>>>>>>>")
+							beego.Info("begin >>>>>>>>>>>>")
 							models.ChapterInsertMulti(chapters)
-							log.Print("<<<<<<<<<<< over")
+							beego.Info("<<<<<<<<<<< over")
 						}
 					}
 				})(&book)

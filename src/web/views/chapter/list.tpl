@@ -57,18 +57,47 @@
             <ul class="list-group">
                 {{range .page.List}}
                 <li class="list-group-item">
-                    <a href="{{urlfor "ChapterController.Edit" ":id" .Id}}" >{{.Title}}</a> | <a href="{{urlfor "ChapterController.Edit" ":id" .Id}}">章节详情</a>
+                    <a href="{{urlfor "ChapterController.Edit" ":id" .Id}}" >{{.Title}}</a>
                 </li>
                 {{end}}
             </ul>
             <ul id="page"></ul>
         </div>
+    </div>
+    <ul id="page"></ul>
 </div>
+
+
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-paginator.min.js"></script>
 
+    <script type="text/javascript">
+        $(function () {
+            var pageNo=parseInt("{{.page.PageNo}}");
+            pageNo=pageNo?pageNo:1
+            var totalPage=parseInt("{{.page.TotalPage}}");
+            totalPage=totalPage?totalPage:0
+            pageNo = pageNo>totalPage?totalPage:1
+
+            $("#page").bootstrapPaginator({
+                currentPage: pageNo,
+                totalPages: totalPage,
+                bootstrapMajorVersion: 3,
+                size: "small",
+                onPageClicked: function(e,originalEvent,type,page){
+                    var thisUrl=window.location.href
+                    if(thisUrl.indexOf("?")>-1){
+                        window.location.href = thisUrl.substr(0,thisUrl.indexOf("?"))+"?PageNo="+page
+                    }else{
+                        window.location.href = thisUrl+"?PageNo="+page
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

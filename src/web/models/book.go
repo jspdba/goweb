@@ -51,10 +51,10 @@ func ChapterPage(p int, size int,bookId int) utils.Page{
 	count:=int64(0)
 	if bookId>=0{
 		count, _ = qs.Filter("Book__Id", bookId).Limit(-1).Count()
-		qs.RelatedSel().OrderBy("-CreateDate").Filter("Book__Id", bookId).Limit(size).Offset((p - 1) * size).All(&list)
+		qs.RelatedSel().OrderBy("index").Filter("Book__Id", bookId).Limit(size).Offset((p - 1) * size).All(&list)
 	}else{
 		count, _ = qs.Limit(-1).Count()
-		qs.RelatedSel().OrderBy("-CreateDate").Limit(size).Offset((p - 1) * size).All(&list)
+		qs.RelatedSel().OrderBy("index").Limit(size).Offset((p - 1) * size).All(&list)
 	}
 
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))

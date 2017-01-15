@@ -158,3 +158,13 @@ func addZero(str string,unitKeyValues *KeyValues) string{
 
 	return str
 }
+//找出数字
+func FindDigit(str string) string{
+
+	if strings.LastIndex(str,"章")>-1{
+		str = str[0:strings.LastIndex(str,"章")]
+	}
+	str = strings.Replace(str," ","",-1)
+	str = strings.Replace(str,"第","",-1)
+	return str
+}
