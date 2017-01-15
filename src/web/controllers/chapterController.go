@@ -14,6 +14,7 @@ type ChapterController struct {
 
 func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/edit/:id([0-9]+)", this.Edit)
+	this.Mapping("/chapter/detail/:id([0-9]+)", this.Detail)
 	this.Mapping("/chapter/save", this.SaveOrUpdate)
 	this.Mapping("/chapter/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
@@ -34,6 +35,22 @@ func (this *ChapterController) Edit() {
 	}
 	this.Data["entry"] = obj
 	this.TplName = "chapter/edit.tpl"
+}
+// @router /chapter/detail/:id([0-9]{0,}) [get]
+func (this *ChapterController) Detail() {
+	id:=this.Ctx.Input.Param(":id")
+	obj:= models.Chapter{}
+	if id!=""{
+		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
+			ok,entity:=models.FindChapterById(i)
+			beego.Info(entity)
+			if ok{
+				obj=entity
+			}
+		}
+	}
+	this.Data["entity"] = obj
+	this.TplName = "chapter/detail.tpl"
 }
 
 // @router /chapter/save [post]

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8">
-    <title>章节列表</title>
+    <title>{{.entity.Title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
@@ -18,9 +18,9 @@
     <script src="/static/Flat-UI/dist/js/vendor/html5shiv.js"></script>
     <script src="/static/Flat-UI/dist/js/vendor/respond.min.js"></script>
     <![endif]-->
+
     <style>
         body {
-            min-height: 2000px;
             padding-top: 70px;
         }
     </style>
@@ -49,55 +49,20 @@
 </div>
 
 <div class="container">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <div class="title"><a href="{{urlfor "ChapterController.Edit"}}" class="btn btn-primary">添加</a></div>
-        </div>
-        <div class="panel-body">
-            <ul class="list-group">
-                {{range .page.List}}
-                <li class="list-group-item">
-                    <a href="{{urlfor "ChapterController.Detail" ":id" .Id}}" >{{.Title}}</a>
-                </li>
-                {{end}}
-            </ul>
-            <ul id="page"></ul>
-        </div>
-    </div>
-</div>
+    <h4>{{.entity.Title}}</h4>
+    <p>
+        {{.entity.Content}}
+    </p>
+</div><!-- /.container -->
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
-
 <script src="/static/Flat-UI/docs/assets/js/application.js"></script>
 
-<script type="text/javascript" src="/static/js/bootstrap-paginator.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var pageNo=parseInt("{{.page.PageNo}}");
-            pageNo=pageNo?pageNo:1
-            console.log(pageNo)
-            var totalPage=parseInt("{{.page.TotalPage}}");
-            totalPage=totalPage?totalPage:0
-            pageNo = pageNo>totalPage?totalPage:pageNo
+<script>
 
-            $("#page").bootstrapPaginator({
-                currentPage: pageNo,
-                totalPages: totalPage,
-                bootstrapMajorVersion: 3,
-                size: "small",
-                onPageClicked: function(e,originalEvent,type,page){
-                    var thisUrl=window.location.href
-                    if(thisUrl.indexOf("?")>-1){
-                        window.location.href = thisUrl.substr(0,thisUrl.indexOf("?"))+"?PageNo="+page
-                    }else{
-                        window.location.href = thisUrl+"?PageNo="+page
-                    }
-                }
-            });
-        });
-    </script>
+</script>
 </body>
 </html>

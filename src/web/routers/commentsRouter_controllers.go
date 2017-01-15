@@ -50,6 +50,13 @@ func init() {
 
 	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
 		beego.ControllerComments{
+			Method: "Detail",
+			Router: `/chapter/detail/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
 			Method: "SaveOrUpdate",
 			Router: `/chapter/save`,
 			AllowHTTPMethods: []string{"post"},

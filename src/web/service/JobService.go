@@ -50,7 +50,6 @@ func Download(wg *sync.WaitGroup,chapters []*models.Chapter,selector string){
 			content:=GetContent(chapter.Url,selector)
 			//log.Print("进度=",(i+1)/len(chapters),content)
 			chapter.Content=content
-			beego.Info("下载内容=",content)
 		}
 	}
 }
@@ -75,7 +74,7 @@ func GetContent(url string, selector string) string{
 			return content
 		}
 	}else{
-		log.Print(err)
+		beego.Error(err)
 	}
 	return ""
 }
@@ -89,12 +88,10 @@ func GetUrlInfo(url string,selector string,limit int) []*models.Chapter{
 			title := contentSelection.Find("a").Text()
 			//log.Println("第", i + 1, "个帖子的标题：", title)
 			index:=getIndex(utils.Convert2Digit(utils.FindDigit(title)))
-			beego.Info("第", i + 1, "个帖子的章节：", index)
 
 			href, _ := contentSelection.Find("a").Attr("href")
 			if !strings.HasPrefix(href, "http") {
 				href = getHost(url) + href
-				log.Println("第", i + 1, "个帖子的url：", href)
 			}
 			chapter:=&models.Chapter{
 				Title:title,
