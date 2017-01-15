@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>图书列表</title>
+    <title>章节列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
@@ -51,17 +51,14 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="title"><a href="{{urlfor "BookController.Edit"}}" class="btn btn-primary">添加</a></div>
+            <div class="title"><a href="{{urlfor "ChapterController.Edit"}}" class="btn btn-primary">添加</a></div>
         </div>
         <div class="panel-body">
             <ul class="list-group">
                 {{range .page.List}}
                 <li class="list-group-item">
-                    <a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a>
-                    <a href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
-                    <a class="updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
+                    <a href="{{urlfor "ChapterController.Edit" ":id" .Id}}" >{{.Title}}</a> | <a href="{{urlfor "ChapterController.Edit" ":id" .Id}}">章节详情</a>
                 </li>
-
                 {{end}}
             </ul>
             <ul id="page"></ul>
@@ -72,17 +69,6 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
-    <script>
-        $(".updateChapter").bind("click",function () {
-            var url=$(this).attr("link")
-            console.log(url)
-            url && $.getJSON(url,function (data) {
-                console.log(data)
-                if (data.code==0){
-                    alert("success")
-                }
-            })
-        })
-    </script>
+
 </body>
 </html>

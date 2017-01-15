@@ -10,4 +10,5 @@ func init() {
 	beego.Include(&controllers.LinkController{})
 	beego.Include(&controllers.UserController{})
 	beego.Include(&controllers.BookController{})
+	beego.Include(&controllers.ChapterController{})
 }

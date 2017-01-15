@@ -4,8 +4,8 @@ import (
 	"time"
 	"github.com/astaxie/beego/orm"
 	"strconv"
-	"web/utils"
 	"github.com/astaxie/beego"
+	"web/utils"
 )
 
 type Book struct {
@@ -42,13 +42,21 @@ func BookPage(p int, size int) utils.Page{
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }
-func ChapterPage(p int, size int) utils.Page{
+
+func ChapterPage(p int, size int,bookId int) utils.Page{
 	o := orm.NewOrm()
-	var obj Book
+	var obj Chapter
 	var list []Chapter
 	qs := o.QueryTable(obj)
-	count, _ := qs.Limit(-1).Count()
-	qs.RelatedSel().OrderBy("-CreateDate").Limit(size).Offset((p - 1) * size).All(&list)
+	count:=int64(0)
+	if bookId>=0{
+		count, _ = qs.Filter("Book__Id", bookId).Limit(-1).Count()
+		qs.RelatedSel().OrderBy("-CreateDate").Filter("Book__Id", bookId).Limit(size).Offset((p - 1) * size).All(&list)
+	}else{
+		count, _ = qs.Limit(-1).Count()
+		qs.RelatedSel().OrderBy("-CreateDate").Limit(size).Offset((p - 1) * size).All(&list)
+	}
+
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }
@@ -123,6 +131,39 @@ func BookSaveOrUpdate(book *Book) int64{
 	return int64(-1)
 }
 
+
+func ChapterInsertMulti(chapters []*Chapter){
+	o := orm.NewOrm()
+	if _, err :=o.InsertMulti(len(chapters),chapters);err!=nil{
+		beego.Error(err)
+	}
+}
+
+func ChapterSaveOrUpdate(chapter *Chapter) int64{
+	o := orm.NewOrm()
+
+	chapterOld:=*chapter
+	if created, id, err := o.ReadOrCreate(chapter, "Id"); err == nil {
+		if created {
+			return id
+		} else {
+			chapter.Title = chapterOld.Title
+			chapter.Url = chapterOld.Url
+			chapter.Content = chapterOld.Content
+			chapter.Book = chapterOld.Book
+			chapter.Content = chapterOld.Content
+			chapter.Index = chapterOld.Index
+
+			if id, err := o.Update(chapter); err==nil{
+				return id
+			}else{
+				beego.Error(err)
+			}
+		}
+	}
+	return int64(-1)
+}
+
 func ChapterUpdate(chapter *Chapter) int64{
 	o := orm.NewOrm()
 	count:=int64(0)
@@ -144,12 +185,29 @@ func BookDelete(book *Book) bool{
 	}
 	return result
 }
+func ChapterDelete(chapter *Chapter) bool{
+	o := orm.NewOrm()
+	result:=false
+	if num, err := o.Delete(&chapter); err == nil {
+		if num>0{
+			result=true
+		}
+	}
+	return result
+}
 func FindBookById(id int64) (bool, Book) {
 	o := orm.NewOrm()
 	var book Book
 	err := o.QueryTable(book).Filter("Id", id).One(&book)
 	return err != orm.ErrNoRows, book
 }
+func FindChapterById(id int64) (bool, Chapter) {
+	o := orm.NewOrm()
+	var entity Chapter
+	err := o.QueryTable(entity).Filter("Id", id).One(&entity)
+	return err != orm.ErrNoRows, entity
+}
+
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))
 }

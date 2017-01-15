@@ -22,6 +22,13 @@ func init() {
 
 	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
 		beego.ControllerComments{
+			Method: "TaskUpdate",
+			Router: `/book/taskUpdate/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
 			Method: "Delete",
 			Router: `/book/delete/:id([0-9]+)`,
 			AllowHTTPMethods: []string{"get"},
@@ -31,6 +38,34 @@ func init() {
 		beego.ControllerComments{
 			Method: "List",
 			Router: `/book/list`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "Edit",
+			Router: `/chapter/edit/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "SaveOrUpdate",
+			Router: `/chapter/save`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/chapter/delete/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/chapter/list/:id([0-9]{0,})`,
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
