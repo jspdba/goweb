@@ -55,11 +55,24 @@ func (this *BookController) TaskUpdate() {
 			ok,book:=models.FindBookById(i)
 			if ok{
 				//更新章节
-				go (func(book *models.Book){
+				go (func(book *models.Book) bool{
 					if book!=nil{
 						//申请任务调度
 						if book.Url!=""{
 							chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,-1)
+							//增加index
+
+							for i:=len(chapters);i>0;i--{
+								chapters[i-1].Index=i
+							}
+							if ok,ch:=models.FindMaxIndexChapter(book);ok{
+								if ch.Index<len(chapters){
+									chapters=chapters[ch.Index:]
+								}else{
+									return false
+								}
+							}
+
 							service.GetChapterContent(book.ContentRules,chapters,100)
 							for _,chapter := range chapters{
 								chapter.Book= book
@@ -67,8 +80,10 @@ func (this *BookController) TaskUpdate() {
 							beego.Info("begin >>>>>>>>>>>>")
 							models.ChapterInsertMulti(chapters)
 							beego.Info("<<<<<<<<<<< over")
+
 						}
 					}
+					return true
 				})(&book)
 				json = JsonObj{Code: 0, Msg:"ok"}
 			}

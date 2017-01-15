@@ -230,6 +230,13 @@ func FindChapter(chapter *Chapter) (bool, Chapter) {
 
 }
 
+func FindMaxIndexChapter(book *Book) (bool, *Chapter){
+	o := orm.NewOrm()
+	var entity Chapter
+	err := o.QueryTable(entity).Filter("book__id",book.Id).OrderBy("-index").Limit(1).One(&entity)
+	return err != orm.ErrNoRows, &entity
+}
+
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))
 }

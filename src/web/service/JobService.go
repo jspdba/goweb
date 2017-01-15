@@ -7,7 +7,6 @@ import (
 	"regexp"
 	"strconv"
 	"github.com/PuerkitoBio/goquery"
-	"web/utils"
 	"github.com/astaxie/beego"
 )
 
@@ -26,7 +25,6 @@ func GetChapterContent(selector string,chapters  []*models.Chapter,threadsCount 
 	}else{
 		for start,i:=0,0;i<threadsCount;i++{
 			end:=start+itemCount
-			//log.Println(start,end,lenChapters)
 			wg.Add(1)
 			if i==threadsCount-1{
 				beego.Info(start,":-",lenChapters)
@@ -46,9 +44,7 @@ func Download(wg *sync.WaitGroup,chapters []*models.Chapter,selector string){
 	defer wg.Done()
 	for _,chapter:=range chapters{
 		if chapter.Url!=""{
-			//log.Print(chapter.Url)
 			content:=GetContent(chapter.Url,selector)
-			//log.Print("进度=",(i+1)/len(chapters),content)
 			chapter.Content=content
 		}
 	}
@@ -56,7 +52,6 @@ func Download(wg *sync.WaitGroup,chapters []*models.Chapter,selector string){
 func DownloadOne(wg *sync.WaitGroup,chapter *models.Chapter,selector string){
 	defer wg.Done()
 	if chapter.Url!=""{
-		selector:="#content"
 		content:=GetContent(chapter.Url,selector)
 		chapter.Content=content
 		beego.Info("DownLoad="+chapter.Url)
@@ -90,7 +85,7 @@ func GetUrlInfo(url string,selector string,limit int) []*models.Chapter{
 		doc.Find(selector).EachWithBreak(func(i int, contentSelection *goquery.Selection) bool{
 			title := contentSelection.Find("a").Text()
 			//log.Println("第", i + 1, "个帖子的标题：", title)
-			index:=getIndex(utils.Convert2Digit(utils.FindDigit(title)))
+			//index:=getIndex(utils.Convert2Digit(utils.FindDigit(title)))
 
 			href, _ := contentSelection.Find("a").Attr("href")
 			if !strings.HasPrefix(href, "http") {
@@ -98,7 +93,7 @@ func GetUrlInfo(url string,selector string,limit int) []*models.Chapter{
 			}
 			chapter:=&models.Chapter{
 				Title:title,
-				Index:index,
+				//Index:index,
 				Url:href,
 			}
 			chapters=append(chapters,chapter)
