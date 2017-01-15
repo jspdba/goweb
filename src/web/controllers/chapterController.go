@@ -15,6 +15,8 @@ type ChapterController struct {
 func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/edit/:id([0-9]+)", this.Edit)
 	this.Mapping("/chapter/detail/:id([0-9]+)", this.Detail)
+	this.Mapping("/chapter/next/:id([0-9]{0,})", this.Next)
+	this.Mapping("/chapter/pre/:id([0-9]{0,})", this.Pre)
 	this.Mapping("/chapter/save", this.SaveOrUpdate)
 	this.Mapping("/chapter/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
@@ -40,13 +42,59 @@ func (this *ChapterController) Edit() {
 func (this *ChapterController) Detail() {
 	id:=this.Ctx.Input.Param(":id")
 	obj:= models.Chapter{}
-	if id!=""{
+	var next,pre models.Chapter
+	/*if id!=""{
 		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
 			ok,entity:=models.FindChapterById(i)
 			beego.Info(entity)
 			if ok{
 				obj=entity
 			}
+		}
+	}*/
+
+	if id!=""{
+		if i,err:=strconv.Atoi(id); err==nil{
+			obj.Id=i
+			ok,entity:=models.FindChapter(&obj)
+			if ok{
+				obj=entity
+				pre=models.ChapterPre(&obj)
+				next=models.ChapterNext(&obj)
+			}else{
+				this.Redirect("/book/list",302)
+			}
+		}
+	}
+
+	this.Data["entity"] = obj
+	this.Data["next"] = next
+	this.Data["pre"] = pre
+	this.TplName = "chapter/detail.tpl"
+}
+// @router /chapter/next/:id([0-9]{0,}) [get]
+func (this *ChapterController) Next() {
+	id:=this.Ctx.Input.Param(":id")
+	obj:= models.Chapter{}
+	if id!=""{
+		if i,err:=strconv.Atoi(id); err==nil{
+			obj.Id=i
+			entity:=models.ChapterNext(&obj)
+			obj=entity
+		}
+	}
+	this.Data["entity"] = obj
+	this.TplName = "chapter/detail.tpl"
+}
+// @router /chapter/pre/:id([0-9]{0,}) [get]
+func (this *ChapterController) Pre() {
+	id:=this.Ctx.Input.Param(":id")
+	obj:= models.Chapter{}
+	if id!=""{
+		if i,err:=strconv.Atoi(id); err==nil{
+			obj.Id=i
+			entity:=models.ChapterPre(&obj)
+			obj=entity
 		}
 	}
 	this.Data["entity"] = obj

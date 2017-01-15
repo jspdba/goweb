@@ -78,7 +78,6 @@
         $(function () {
             var pageNo=parseInt("{{.page.PageNo}}");
             pageNo=pageNo?pageNo:1
-            console.log(pageNo)
             var totalPage=parseInt("{{.page.TotalPage}}");
             totalPage=totalPage?totalPage:0
             pageNo = pageNo>totalPage?totalPage:pageNo

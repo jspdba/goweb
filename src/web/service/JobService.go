@@ -28,11 +28,12 @@ func GetChapterContent(selector string,chapters  []*models.Chapter,threadsCount 
 			end:=start+itemCount
 			//log.Println(start,end,lenChapters)
 			wg.Add(1)
-			if end==lenChapters-1{
-				//beego.Info(start,":")
+			if i==threadsCount-1{
+				beego.Info(start,":-",lenChapters)
 				go Download(&wg,chapters[start:],selector)
+				break;
 			}else{
-				//beego.Info(start,":",end)
+				beego.Info(start,":",end,lenChapters)
 				go Download(&wg,chapters[start:end],selector)
 			}
 			start=end
@@ -67,12 +68,18 @@ func GetContent(url string, selector string) string{
 	if err == nil {
 		if doc != nil {
 			content:= doc.Find(selector).Text()
-			return content
+			return AddLine(content)
 		}
 	}else{
 		beego.Error(err)
 	}
 	return ""
+}
+
+func AddLine(str string) string{
+	str=strings.Replace(str,"&nbsp;&nbsp;&nbsp;&nbsp;","\r\n&nbsp;&nbsp;&nbsp;&nbsp;",-1)
+	str=strings.Replace(str,"　　　　","\r\n　　　　",-1)
+	return strings.Replace(str,"\r\n","<br/>",-1)
 }
 
 func GetUrlInfo(url string,selector string,limit int) []*models.Chapter{

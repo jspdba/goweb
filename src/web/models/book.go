@@ -174,6 +174,20 @@ func ChapterUpdate(chapter *Chapter) int64{
 	}
 	return count
 }
+func ChapterNext(chapter *Chapter) Chapter{
+	o := orm.NewOrm()
+	var obj Chapter
+	qs := o.QueryTable(obj)
+	qs.Filter("book", chapter.Book).Filter("index__gt",chapter.Index).OrderBy("index").Limit(1).One(&obj)
+	return obj
+}
+func ChapterPre(chapter *Chapter) Chapter{
+	o := orm.NewOrm()
+	var obj Chapter
+	qs := o.QueryTable(obj)
+	qs.Filter("book", chapter.Book).Filter("index__lt",chapter.Index).OrderBy("-index").Limit(1).One(&obj)
+	return obj
+}
 
 func BookDelete(book *Book) bool{
 	o := orm.NewOrm()
@@ -206,6 +220,14 @@ func FindChapterById(id int64) (bool, Chapter) {
 	var entity Chapter
 	err := o.QueryTable(entity).Filter("Id", id).One(&entity)
 	return err != orm.ErrNoRows, entity
+}
+//根据主键查找chapter
+func FindChapter(chapter *Chapter) (bool, Chapter) {
+	o := orm.NewOrm()
+	var entity Chapter
+	err := o.QueryTable(entity).Filter("Id", chapter.Id).RelatedSel().One(&entity)
+	return err != orm.ErrNoRows, entity
+
 }
 
 func init() {

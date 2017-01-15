@@ -22,6 +22,7 @@
     <style>
         body {
             padding-top: 70px;
+            padding-bottom: 50px;
         }
     </style>
 </head>
@@ -51,8 +52,13 @@
 <div class="container">
     <h4>{{.entity.Title}}</h4>
     <p>
-        {{.entity.Content}}
+        {{str2html .entity.Content}}
     </p>
+
+    <div class="navbar-fixed-bottom">
+        <a id="pre" type="button" class="btn btn-primary btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .pre.Id}}">上一页</a>
+        <a id="next" type="button" class="btn btn-primary btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">下一页</a>
+    </div>
 </div><!-- /.container -->
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
@@ -60,9 +66,5 @@
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
 <script src="/static/Flat-UI/docs/assets/js/application.js"></script>
-
-<script>
-
-</script>
 </body>
 </html>
