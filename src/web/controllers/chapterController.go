@@ -5,12 +5,12 @@ import (
 	"web/models"
 	"strconv"
 	"web/utils"
+	"web/service"
 )
 
 type ChapterController struct {
 	beego.Controller
 }
-
 
 func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/edit/:id([0-9]+)", this.Edit)
@@ -20,6 +20,7 @@ func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/save", this.SaveOrUpdate)
 	this.Mapping("/chapter/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
+	this.Mapping("/chapter/new/:id([0-9]{0,})", this.HasNewChapter)
 }
 
 // @router /chapter/edit/:id([0-9]{0,}) [get]
@@ -139,4 +140,31 @@ func (this *ChapterController) List() {
 	}
 	this.Data["page"] = models.ChapterPage(page.PageNo,page.PageSize,bookId)
 	this.TplName = "chapter/list.tpl"
+}
+
+// @router /chapter/new/:id([0-9]{0,}) [get]
+func (this *ChapterController) HasNewChapter(){
+	id:=this.Ctx.Input.Param(":id")
+	updateCount:=0
+	jsonMap:=map[string]interface{}{
+		"code":0,
+		"msg":"",
+		"data":updateCount,
+	}
+	ok,chapter:=models.FindMaxIndexChapterByBookId(id)
+	if ok{
+		if chapter.Book!=nil{
+			if chapter.Book.Url!=""{
+				chapters:= service.GetUrlInfo(chapter.Book.Url,chapter.Book.ChapterRules,-1)
+				updateCount=len(chapters)-chapter.Index
+				beego.Info(chapter.Index,len(chapters))
+				jsonMap=map[string]interface{}{
+					"code":0,
+					"data":updateCount,
+				}
+			}
+		}
+	}
+	this.Data["json"]=&jsonMap
+	this.ServeJSON()
 }

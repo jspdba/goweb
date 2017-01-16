@@ -236,6 +236,20 @@ func FindMaxIndexChapter(book *Book) (bool, *Chapter){
 	err := o.QueryTable(entity).Filter("book__id",book.Id).OrderBy("-index").Limit(1).One(&entity)
 	return err != orm.ErrNoRows, &entity
 }
+func FindMaxIndexChapterByBookId(bookId string) (bool, *Chapter){
+	o := orm.NewOrm()
+	var entity Chapter
+	if bookId==""{
+		return false,nil
+	}
+
+	id,e:=strconv.Atoi(bookId);
+	if e!=nil{
+		return false,nil
+	}
+	err := o.QueryTable(entity).RelatedSel().Filter("book__id",id).OrderBy("-index").Limit(1).One(&entity)
+	return err != orm.ErrNoRows, &entity
+}
 
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))

@@ -51,19 +51,29 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="title"><a href="{{urlfor "BookController.Edit"}}" class="btn btn-primary">添加</a></div>
+            <div class="title">
+                <a href="{{urlfor "BookController.Edit"}}" class="btn btn-primary">添加</a>
+                <a id="check" class="btn btn-primary">检查更新</a>
+            </div>
         </div>
         <div class="panel-body">
-            <ul class="list-group">
-                {{range .page.List}}
-                <li class="list-group-item">
-                    <a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a>
-                    <a href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
-                    <a class="updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
-                </li>
-
-                {{end}}
-            </ul>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    {{range .page.List}}
+                        <tr>
+                            <td colspan="2"><a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a></td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
+                                    <a type="button" class="btn btn-info" class="updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
+                                </div>
+                            </td>
+                            <td class="news" bid="{{.Id}}" data-url="{{urlfor "ChapterController.HasNewChapter" ":id" .Id}}">
+                            </td>
+                        </tr>
+                    {{end}}
+                </table>
+            </div>
             <ul id="page"></ul>
         </div>
 </div>
@@ -81,6 +91,18 @@
                 if (data.code==0){
                     alert("success")
                 }
+            })
+        });
+
+        $("#check").bind("click",function () {
+            $(".news").each(function () {
+                var url=$(this).data("url");
+                var that=$(this);
+                $.getJSON(url,function (data) {
+                    if(data.code==0){
+                        $(that).html(data.data)
+                    }
+                })
             })
         })
     </script>

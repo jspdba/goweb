@@ -51,7 +51,8 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="title"><a href="{{urlfor "ChapterController.Edit"}}" class="btn btn-primary">添加</a></div>
+            <div class="title">
+            </div>
         </div>
         <div class="panel-body">
             <ul class="list-group">
