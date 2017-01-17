@@ -83,7 +83,7 @@
             totalPage=totalPage?totalPage:0
             pageNo = pageNo>totalPage?totalPage:pageNo
 
-            $("#page").bootstrapPaginator({
+            totalPage && $("#page").bootstrapPaginator({
                 currentPage: pageNo,
                 totalPages: totalPage,
                 bootstrapMajorVersion: 3,

@@ -45,6 +45,15 @@ func LogInsertOrUpdate(log *Log) bool{
 	}
 	return false;
 }
+func FindLogCount(tag string) int64{
+	o := orm.NewOrm()
+	var obj Log
+	i,err := o.QueryTable(obj).Filter("tag", tag).Count()
+	if err==nil{
+		return i
+	}
+	return int64(0)
+}
 
 func init() {
 	orm.RegisterModel(new(Log))

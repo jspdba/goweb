@@ -11,6 +11,7 @@ type ChapterLogController struct {
 
 func (this *ChapterLogController) URLMapping() {
 	this.Mapping("/log/chapter/:tag([\\w]+)/:bookId([0-9]+)/:index([0-9]+)", this.Add)
+	this.Mapping("/log/tag/:tag([\\w]+)", this.FindTag)
 }
 // @router /log/chapter/:tag([\w]+)/:bookId([0-9]+)/:index([0-9]+) [get]
 func (this *ChapterLogController) Add(){
@@ -56,6 +57,20 @@ func (this *ChapterLogController) Add(){
 		}
 	}
 
+	this.Data["json"]=resMap
+	this.ServeJSON()
+}
+
+ // @router /log/tag/:tag([\w]+) [get]
+func (this *ChapterLogController) FindTag(){
+	resMap:=map[string]interface{}{
+		"code":0,
+		"msg":"",
+		"result":0,
+	}
+	tag := this.Ctx.Input.Param(":tag")
+	count:=models.FindLogCount(tag)
+	resMap["result"]=count;
 	this.Data["json"]=resMap
 	this.ServeJSON()
 }

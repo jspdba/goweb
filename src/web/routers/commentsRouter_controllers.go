@@ -104,10 +104,24 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "FindByTitle",
+			Router: `/chapter/title/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:ChapterLogController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterLogController"],
 		beego.ControllerComments{
 			Method: "Add",
 			Router: `/log/chapter/:tag([\w]+)/:bookId([0-9]+)/:index([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterLogController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterLogController"],
+		beego.ControllerComments{
+			Method: "FindTag",
+			Router: `/log/tag/:tag([\w]+)`,
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 

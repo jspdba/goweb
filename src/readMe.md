@@ -101,3 +101,7 @@
 # 第 5854 个帖子的url： http://www.biquge.tw/0_671/4771809.html
 #go 并发编程 例子
 [go 并发编程](http://studygolang.com/articles/2423)
+## cookie
+[js-cookie 文档](https://github.com/js-cookie/js-cookie)
+##  Toastr
+[Toastr](http://codeseven.github.io/toastr/)

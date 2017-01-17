@@ -22,6 +22,7 @@ func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
 	this.Mapping("/chapter/new/:id([0-9]{0,})", this.HasNewChapter)
 	this.Mapping("/chapter/list/:tag(\\w+)/:id([0-9]{0,})", this.ListByLog)
+	this.Mapping("/chapter/title/:id([0-9]{0,})", this.FindByTitle)
 }
 
 // @router /chapter/edit/:id([0-9]{0,}) [get]
@@ -192,5 +193,16 @@ func (this *ChapterController) ListByLog() {
 		this.Data["page"] = models.ChapterPage(page.PageNo,page.PageSize,bookId)
 	}
 
+	this.TplName = "chapter/list.tpl"
+}
+// @router /chapter/title/:id([0-9]{0,}) [post]
+func (this *ChapterController) FindByTitle() {
+	page:=utils.Page{PageNo:1,PageSize:20}
+	if err := this.ParseForm(&page); err != nil {
+		beego.Error(err)
+	}
+	id:=this.Ctx.Input.Param(":id")
+	title:=this.GetString("Title")
+	this.Data["page"]=models.ChapterPageByTitle(page.PageNo,page.PageSize,title,id)
 	this.TplName = "chapter/list.tpl"
 }
