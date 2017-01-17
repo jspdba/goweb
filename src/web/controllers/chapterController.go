@@ -21,6 +21,7 @@ func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
 	this.Mapping("/chapter/new/:id([0-9]{0,})", this.HasNewChapter)
+	this.Mapping("/chapter/list/:tag(\\w+)/:id([0-9]{0,})", this.ListByLog)
 }
 
 // @router /chapter/edit/:id([0-9]{0,}) [get]
@@ -167,4 +168,29 @@ func (this *ChapterController) HasNewChapter(){
 	}
 	this.Data["json"]=&jsonMap
 	this.ServeJSON()
+}
+
+
+// @router /chapter/list/:tag(\w+)/:id([0-9]{0,}) [get]
+func (this *ChapterController) ListByLog() {
+	page:=utils.Page{PageNo:1,PageSize:20}
+	if err := this.ParseForm(&page); err != nil {
+		beego.Error(err)
+	}
+	id:=this.Ctx.Input.Param(":id")
+	tag:=this.Ctx.Input.Param(":tag")
+	ok,log:=models.FindLastLogByTagAndBookId(tag,id)
+	if ok{
+		this.Data["page"] = models.ChapterPageByLog(page.PageNo,page.PageSize,&log)
+	}else{
+		bookId:=-1
+		if id!="" {
+			if i, err := strconv.Atoi(id); err == nil {
+				bookId=i
+			}
+		}
+		this.Data["page"] = models.ChapterPage(page.PageNo,page.PageSize,bookId)
+	}
+
+	this.TplName = "chapter/list.tpl"
 }

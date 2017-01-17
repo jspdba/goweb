@@ -60,6 +60,29 @@ func ChapterPage(p int, size int,bookId int) utils.Page{
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }
+func ChapterPageByLog(p int, size int,log *Log) utils.Page{
+	o := orm.NewOrm()
+	var obj Chapter
+	var list []Chapter
+	qs := o.QueryTable(obj)
+	count:=int64(0)
+
+	bookId,err:=strconv.Atoi(log.BookId)
+	if err==nil{
+		if bookId>=0{
+			count, _ = qs.Filter("index__gte",log.Index).Filter("Book__Id", bookId).Limit(-1).Count()
+			qs.RelatedSel().OrderBy("index").Filter("index__gte",log.Index).Filter("Book__Id", bookId).Limit(size).Offset((p - 1) * size).All(&list)
+		}else{
+			count, _ = qs.Limit(-1).Count()
+			qs.RelatedSel().OrderBy("index").Limit(size).Offset((p - 1) * size).All(&list)
+		}
+	}
+
+
+	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
+	return utils.PageUtil(c, p, size, list)
+}
+
 
 func BookSave(book *Book) int64 {
 	o := orm.NewOrm()
@@ -143,7 +166,7 @@ func ChapterSaveOrUpdate(chapter *Chapter) int64{
 	o := orm.NewOrm()
 
 	chapterOld:=*chapter
-	if created, id, err := o.ReadOrCreate(chapter, "Id"); err == nil {
+	if created, id, err := o.ReadOrCreate(chapter, "Id",); err == nil {
 		if created {
 			return id
 		} else {

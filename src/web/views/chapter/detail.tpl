@@ -66,5 +66,16 @@
 <script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
 <script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
 <script src="/static/Flat-UI/docs/assets/js/application.js"></script>
+
+<script>
+    var url="{{urlfor "ChapterLogController.Add" ":tag" "tag1" ":bookId" .entity.Book.Id ":index" .entity.Index}}";
+    if(url){
+      $.getJSON(url,function (data) {
+          if(data.code==0){
+              console.log("添加日志成功")
+          }
+      })
+    }
+</script>
 </body>
 </html>
