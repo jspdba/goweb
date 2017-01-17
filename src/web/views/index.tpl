@@ -34,7 +34,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a class="navbar-brand">Icon</a>
+            <a class="navbar-brand" href="/">家</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">

@@ -10,7 +10,6 @@ import (
 	"web/utils"
 	"web/models"
 	"sync"
-	"web/service"
 )
 
 func TestSelector(t *testing.T) {

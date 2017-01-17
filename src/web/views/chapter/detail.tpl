@@ -35,7 +35,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a class="navbar-brand">Icon</a>
+            <a class="navbar-brand" href="/">家</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -71,6 +71,7 @@
                                 <button class="btn btn-default" type="submit">Go!</button>
                                 <a id="pre" type="button" class="btn btn-primary btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .pre.Id}}">上一页</a>
                                 <a id="next" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">下一页</a>
+                                <button id="er" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">二维码</button>
                             </span>
                         </div>
                     </div>
@@ -79,8 +80,6 @@
         </div><!-- /.row -->
     </div>
 </div><!-- /.container -->
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -101,6 +100,29 @@
     </div>
 </div>
 
+<!-- 二维码 -->
+<div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="qrCodeModalLabel">二维码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -112,7 +134,7 @@
 <!--消息-->
 <link href="/static/css/toastr.min.css" rel="stylesheet"/>
 <script src="/static/js/toastr.min.js"></script>
-
+<script src="/static/js/jquery.qrcode.min.js"></script>
 <script>
 
     var tag = Cookies.get("__TAG")
@@ -154,6 +176,43 @@
           }
       })
     }
+
+    /**
+     * 转换中文字符,生成二维码
+     * @param str
+     * @returns {string}
+     */
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
+    }
+    //生产二维码
+    $("#er").bind("click",function () {
+        var str = toUtf8(window.location.href);
+        $("#code").html("");
+        $("#code").qrcode({
+            correctLevel:0,
+            width: 200, //宽度
+            height:200, //高度
+            text: str //任意内容
+        });
+        $('#qrCodeModal').modal('show')
+    })
 </script>
 </body>
 </html>
