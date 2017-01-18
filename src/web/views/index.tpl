@@ -1,57 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>山顶洞</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Loading Bootstrap -->
-    <link href="/static/Flat-UI/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Loading Flat UI -->
-    <link href="/static/Flat-UI/dist/css/flat-ui.min.css" rel="stylesheet">
-
-    <link rel="shortcut icon" href="/static/Flat-UI/dist/img/favicon.ico">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-    <!--[if lt IE 9]>
-    <script src="/static/Flat-UI/dist/js/vendor/html5shiv.js"></script>
-    <script src="/static/Flat-UI/dist/js/vendor/respond.min.js"></script>
-    <![endif]-->
-    <style>
-        body {
-            min-height: 2000px;
-            padding-top: 70px;
-        }
-    </style>
-</head>
+<html lang="zh-cn">
+{{template "common/header_flat.tpl"}}
+<title>山顶洞</title>
 <body>
-
-<!-- Static navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-            </button>
-            <a class="navbar-brand" href="/">家</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">主页</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a>注册</a></li>
-                <li class="active"><a>登录</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>
-
-
+{{template "common/navibar.tpl"}}
 <div class="container">
-
-    <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
         <h1>朋友们</h1>
         <p>这是一个神奇的世界</p>
@@ -61,12 +14,32 @@
         </p>
     </div>
 
-</div> <!-- /container -->
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                    <div class="tile">
+                        <img src="/static/Flat-UI/img/icons/svg/compas.svg" alt="二维码" class="tile-image big-illustration">
+                        <h3 class="tile-title">二维码</h3>
+                        <p></p>
+                        <a class="btn btn-primary btn-large btn-block" href="{{urlfor "QrCodeController.Index"}}">进入</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                    <div class="tile">
+                        <img src="/static/Flat-UI/img/icons/svg/compas.svg" alt="收藏" class="tile-image big-illustration">
+                        <h3 class="tile-title">收藏</h3>
+                        <p></p>
+                        <a class="btn btn-primary btn-large btn-block" href="{{urlfor "LinkController.List"}}">进入</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<script src="/static/Flat-UI/dist/js/vendor/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/static/Flat-UI/dist/js/vendor/video.js"></script>
-<script src="/static/Flat-UI/dist/js/flat-ui.min.js"></script>
+    </div>
 
+</div>
+
+{{template "common/script.tpl"}}
 </body>
 </html>

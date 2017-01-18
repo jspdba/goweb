@@ -296,6 +296,14 @@ func ChapterPageByTitle(p int, size int,title string,bid string) utils.Page{
 	return utils.PageUtil(c, p, size, list)
 }
 
+//根据主键查找chapter
+func FindChapterByBookIdAndIndex( bookId int, index int) (bool, Chapter) {
+	o := orm.NewOrm()
+	var entity Chapter
+	err := o.QueryTable(entity).Filter("book__id",bookId).Filter("Index", index).RelatedSel().One(&entity)
+	return err != orm.ErrNoRows, entity
+}
+
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))
 }
