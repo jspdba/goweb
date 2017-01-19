@@ -26,7 +26,8 @@
                                 <button class="btn btn-default" type="submit">Go!</button>
                                 <a id="pre" type="button" class="btn btn-primary btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .pre.Id}}">上一页</a>
                                 <a id="next" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">下一页</a>
-                                <button id="er" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">二维码</button>
+                                <button id="er" type="button" class="btn btn-info btn-sm">二维码</button>
+                                <a id="update" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Update" ":id" .entity.Id}}">更新</a>
                             </span>
                         </div>
                     </div>

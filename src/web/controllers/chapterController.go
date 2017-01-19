@@ -23,6 +23,7 @@ func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/new/:id([0-9]{0,})", this.HasNewChapter)
 	this.Mapping("/chapter/list/:tag(\\w+)/:id([0-9]{0,})", this.ListByLog)
 	this.Mapping("/chapter/title/:id([0-9]{0,})", this.FindByTitle)
+	this.Mapping("/chapter/update/:id([0-9]{0,})", this.Update)
 }
 
 // @router /chapter/edit/:id([0-9]{0,}) [get]
@@ -205,4 +206,20 @@ func (this *ChapterController) FindByTitle() {
 	title:=this.GetString("Title")
 	this.Data["page"]=models.ChapterPageByTitle(page.PageNo,page.PageSize,title,id)
 	this.TplName = "chapter/list.tpl"
+}
+
+// @router /chapter/update/:id([0-9]{0,}) [get]
+func (this *ChapterController) Update() {
+	id:=this.Ctx.Input.Param(":id")
+	if id!=""{
+		if ok,chapter:=models.FindChapterByStrId(id);ok{
+			if chapter.Content==""{
+				if str :=service.GetContent(chapter.Url,chapter.Book.ContentRules);str!=""{
+					chapter.Content=str
+					models.ChapterUpdate(&chapter)
+				}
+			}
+		}
+	}
+	this.Redirect("/chapter/detail/"+id, 302)
 }

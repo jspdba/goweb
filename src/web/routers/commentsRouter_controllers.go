@@ -111,6 +111,13 @@ func init() {
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
+			Method: "Update",
+			Router: `/chapter/update/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:ChapterLogController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterLogController"],
 		beego.ControllerComments{
 			Method: "Add",

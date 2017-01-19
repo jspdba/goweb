@@ -189,13 +189,10 @@ func ChapterSaveOrUpdate(chapter *Chapter) int64{
 
 func ChapterUpdate(chapter *Chapter) int64{
 	o := orm.NewOrm()
-	count:=int64(0)
-	if o.Read(&chapter) == nil {
-		if num, err := o.Update(&chapter); err == nil {
-			count=num
+		if num, err := o.Update(chapter); err == nil {
+			return num
 		}
-	}
-	return count
+	return int64(0)
 }
 func ChapterNext(chapter *Chapter) Chapter{
 	o := orm.NewOrm()
@@ -243,6 +240,15 @@ func FindChapterById(id int64) (bool, Chapter) {
 	var entity Chapter
 	err := o.QueryTable(entity).Filter("Id", id).One(&entity)
 	return err != orm.ErrNoRows, entity
+}
+func FindChapterByStrId(id string) (bool, Chapter) {
+	o := orm.NewOrm()
+	var entity Chapter
+	if i,er:=strconv.Atoi(id);er==nil{
+		err := o.QueryTable(entity).Filter("Id", i).RelatedSel().One(&entity)
+		return err != orm.ErrNoRows, entity
+	}
+	return false,entity
 }
 //根据主键查找chapter
 func FindChapter(chapter *Chapter) (bool, Chapter) {

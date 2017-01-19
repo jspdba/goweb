@@ -19,7 +19,11 @@
                         <td colspan="2"><a href="{{urlfor "JobController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a></td>
                         <td>
                             <div class="btn-group pull-right">
-                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">{{if eq 0 .State }} 开启 {{else}} 终止 {{end}}任务</a>
+                                {{if eq 0 .State }}
+                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">开启任务</a>
+                                {{else}}
+                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">终止任务</a>
+                                {{end}}
                                 <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">删除任务</a>
                             </div>
                         </td>

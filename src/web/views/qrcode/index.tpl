@@ -13,17 +13,36 @@
 
 <div class="container">
     <h4>二维码处理</h4>
+
+    <row>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <td id="index1">http://dingying.m.womai.com</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <button type="button" class="use btn btn-primary" for="index1">使用</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea autocomplete="off" data-provide="typeahead" name="url" id="url" placeholder="输入网址" class="form-control"></textarea>
+                    </td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <button id="make" type="button" class="btn btn-primary">生成</button>
+                            <button type="button" class="append btn btn-primary" data-prefix="http://">http</button>
+                            <button type="button" class="append btn btn-primary" data-www="www">www</button>
+                            <button type="button" class="append btn btn-primary" data-suffix=".com">.com</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </row>
     <div class="row">
-        <div class="box">
-            <div class="col-lg-12 text-center" role="form">
-                <div class="form-group">
-                    <label for="url">网址</label>
-                    <textarea autocomplete="off" data-provide="typeahead" name="url" id="url" placeholder="输入网址" class="form-control"></textarea>
-                </div>
-                <input id="make" type="button" class="btn btn-primary" value="生成">
-            </div>
-            <div id="code">
-            </div>
+        <div id="code">
         </div>
     </div>
 </div>
@@ -61,18 +80,57 @@
 
     $("#make").bind("click",function () {
         var url=$("#url").val();
+        url && makeQrcode(url)
+    });
+
+    function makeQrcode(url) {
         if(url){
-            //开始生成二维码
             var str = toUtf8(url);
-//        $('#code').qrcode(str);
             $("#code").html("");
             $("#code").qrcode({
-//            render: "table", //table方式
                 correctLevel:0,
                 width: 200, //宽度
                 height:200, //高度
                 text: str //任意内容
             });
+        }
+    }
+
+    $(".use").bind("click",function () {
+        makeQrcode($("#"+$(this).attr("for")).html())
+    })
+    $(".append").bind("click",function () {
+        var prefix=$(this).data("prefix");
+        var suffix=$(this).data("suffix");
+        var www=$(this).data("www");
+        var txt=$("#url").val();
+        if(prefix){
+            if(txt && txt.indexOf(prefix)>-1){
+                return
+            }
+            txt=prefix+txt
+            $("#url").val(txt);
+        }
+        if(suffix){
+            if(txt && txt.lastIndexOf(suffix)>-1){
+                return
+            }
+            txt=txt+suffix
+            $("#url").val(txt);
+        }
+
+        if(www){
+            if(txt && txt.indexOf(www)>-1){
+                return
+            }
+            if(txt && txt.indexOf("//")>-1){
+                arr=txt.split("//")
+                arr[1]="www."+arr[1]
+                txt = arr.join("//")
+            }else{
+                txt="www."+txt
+            }
+            $("#url").val(txt);
         }
     })
 </script>

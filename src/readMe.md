@@ -109,3 +109,19 @@
 #用到的包
 ##cron
     go get github.com/jakecoffman/cron
+##cron job案例
+[beego网站开发 定时执行任务](http://blog.csdn.net/u013401219/article/details/47278219)
+
+#mysql 使用
+##mysql 安装
+- yum install mysql
+- service mysqld start
+- 修改密码
+    1.用root 进入mysql后
+    mysql>set password =password('wuchaofei1');
+    mysql>flush privileges;
+    
+#主机 45.62.101.92
+[主页](http://45.62.101.92)
+
+CREATE DATABASE IF NOT EXISTS beego DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
