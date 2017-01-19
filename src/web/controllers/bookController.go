@@ -27,7 +27,6 @@ func (this *BookController) Edit() {
 	if id!=""{
 		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
 			ok,book:=models.FindBookById(i)
-			beego.Info(book)
 			if ok{
 				bk=book
 			}

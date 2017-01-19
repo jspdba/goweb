@@ -125,6 +125,34 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "Edit",
+			Router: `/job/edit/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "SaveOrUpdate",
+			Router: `/job/save`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/job/delete/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/job/list`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:LinkController"] = append(beego.GlobalControllerRouter["web/controllers:LinkController"],
 		beego.ControllerComments{
 			Method: "Edit",

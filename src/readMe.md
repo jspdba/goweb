@@ -105,3 +105,7 @@
 [js-cookie 文档](https://github.com/js-cookie/js-cookie)
 ##  Toastr
 [Toastr](http://codeseven.github.io/toastr/)
+
+#用到的包
+##cron
+    go get github.com/jakecoffman/cron
