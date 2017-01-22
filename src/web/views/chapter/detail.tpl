@@ -28,6 +28,7 @@
                                 <a id="next" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Detail" ":id" .next.Id}}">下一页</a>
                                 <button id="er" type="button" class="btn btn-info btn-sm">二维码</button>
                                 <a id="update" type="button" class="btn btn-info btn-sm" href="{{urlfor "ChapterController.Update" ":id" .entity.Id}}">更新</a>
+                                <button id="addToFav" type="button" class="btn btn-info btn-sm" link="{{urlfor "LinkController.PostLink"}}">收藏</button>
                             </span>
                         </div>
                     </div>
@@ -84,8 +85,8 @@
 <link href="/static/css/toastr.min.css" rel="stylesheet"/>
 <script src="/static/js/toastr.min.js"></script>
 <script src="/static/js/jquery.qrcode.min.js"></script>
-<script>
 
+<script>
     var tag = Cookies.get("__TAG")
     if(!tag){
         $('#myModal').modal('show')
@@ -162,6 +163,23 @@
         });
         $('#qrCodeModal').modal('show')
     })
+    //添加收藏
+    $("#addToFav").bind("click",function () {
+        var url=$(this).attr("link");
+        $.post(url,{
+            "Url":window.location.href,
+            "Tag.name":"",
+            "Title":$("title").html(),
+            "Tags.Name":"",
+
+        },function (data) {
+            if(data.code==0){
+                toastr.info("收藏成功")
+            }else{
+                toastr.warning("收藏失败")
+            }
+        },"json")
+        })
 </script>
 </body>
 </html>

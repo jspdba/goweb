@@ -28,6 +28,7 @@ func (this *LinkController) URLMapping() {
 	this.Mapping("/link/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/link/list", this.List)
 	this.Mapping("/link/info", this.Info)
+	this.Mapping("/link/ajax/post", this.PostLink)
 }
 
 // @router /link/edit/:id([0-9]{0,}) [get]
@@ -92,4 +93,24 @@ func getUrlInfo(url string) (data *Data) {
 		data = &Data{title, content}
 	}
 	return data
+}
+
+// @router /link/ajax/post [post]
+func (this *LinkController) PostLink(){
+	link := models.Link{}
+	jsonMap:=map[string]interface{}{
+		"code":-1,
+		"msg":"error",
+	}
+	if err := this.ParseForm(&link); err != nil {
+		beego.Error(err)
+		jsonMap["msg"]=err
+	}else{
+		tags := this.GetString("Tags.Name")
+		models.LinkReadOrCreate(&link, tags)
+	}
+	jsonMap["code"]=0
+	jsonMap["msg"]=""
+	this.Data["json"]=jsonMap
+	this.ServeJSON()
 }

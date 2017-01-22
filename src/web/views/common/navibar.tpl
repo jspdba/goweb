@@ -8,12 +8,12 @@
             <a class="navbar-brand" href="/">家</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <!--<ul class="nav navbar-nav">
                 <li class="active"><a href="/">主页</a></li>
-            </ul>
+            </ul>-->
             <ul class="nav navbar-nav navbar-right">
-                <li><a>注册</a></li>
-                <li class="active"><a>登录</a></li>
+                <li><a href="{{urlfor "LinkController.List"}}">收藏</a></li>
+                <!--<li class="active"><a>登录</a></li>-->
             </ul>
         </div><!--/.nav-collapse -->
     </div>

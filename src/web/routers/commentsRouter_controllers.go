@@ -195,6 +195,13 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:LinkController"] = append(beego.GlobalControllerRouter["web/controllers:LinkController"],
+		beego.ControllerComments{
+			Method: "PostLink",
+			Router: `/link/ajax/post`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:QrCodeController"] = append(beego.GlobalControllerRouter["web/controllers:QrCodeController"],
 		beego.ControllerComments{
 			Method: "Index",
