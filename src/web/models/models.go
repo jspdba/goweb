@@ -84,7 +84,16 @@ func LinkPage(p int, size int) utils.Page{
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }
-
+func LinkDelete(link *Link) bool{
+	o := orm.NewOrm()
+	result:=false
+	if num, err := o.Delete(link); err == nil {
+		if num>0{
+			result=true
+		}
+	}
+	return result
+}
 func init() {
 	// 需要在init中注册定义的model
 	//maxIdle := 30

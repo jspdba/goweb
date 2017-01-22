@@ -23,13 +23,15 @@
             <div class="title"><a href="/link/edit" class="btn btn-primary">添加</a></div>
         </div>
         <div class="panel-body">
-            <ul class="list-group">
+            <div class="list-group">
                 {{range .page.List}}
-                <li class="list-group-item">
+                <div class="list-group-item">
                     <a href="{{.Url}}" title="{{.Description | html}}" target="_blank">{{.Title}}</a>
-                </li>
+                    <a href="{{urlfor "LinkController.Delete" ":id" .Id}}">
+                        <span class="badge pull-right">删除</span></a>
+                </div>
                 {{end}}
-            </ul>
+            </div>
         <ul id="page"></ul>
         </div>
 </div>

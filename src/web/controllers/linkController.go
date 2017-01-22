@@ -6,6 +6,7 @@ import (
 	"strings"
 	"web/models"
 	"web/utils"
+	"strconv"
 )
 
 type LinkController struct {
@@ -53,6 +54,17 @@ func (this *LinkController) Save() {
 
 // @router /link/delete/:id
 func (this *LinkController) Delete() {
+
+	id:=this.Ctx.Input.Param(":id")
+	if id!=""{
+		if i,er:=strconv.Atoi(id);er==nil{
+			link := models.Link{Id:i}
+			models.LinkDelete(&link)
+		}
+
+	}
+
+	this.Redirect("/link/list", 302)
 }
 
 // https://beego.me/docs/utils/page.md
