@@ -22,7 +22,7 @@
                                 <div class="btn-group pull-right">
                                     <a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
                                     <a type="button" class="btn btn-info updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
-                                    <a type="button" class="btn btn-info" id="toRead" href="{{urlfor "ChapterController.ListByLog" ":tag" "tag1" ":id" .Id}}">继续阅读</a>
+                                    <a type="button" class="btn btn-primary" id="toRead" href="{{urlfor "ChapterController.ListByLog" ":tag" "tag1" ":id" .Id}}">继续阅读</a>
                                 </div>
                             </td>
                             <td class="news" bid="{{.Id}}" data-url="{{urlfor "ChapterController.HasNewChapter" ":id" .Id}}">
