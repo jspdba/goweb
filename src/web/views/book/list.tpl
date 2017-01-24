@@ -16,25 +16,49 @@
             <div class="table-responsive">
                 <table class="table table-bordered">
                     {{range .page.List}}
-                        <tr>
-                            <td colspan="2"><a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a></td>
-                            <td>
-                                <div class="btn-group pull-right">
-                                    <a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
-                                    <a type="button" class="btn btn-info updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
-                                    <a type="button" class="btn btn-primary" id="toRead" href="{{urlfor "ChapterController.ListByLog" ":tag" "tag1" ":id" .Id}}">继续阅读</a>
-                                </div>
-                            </td>
-                            <td class="news" bid="{{.Id}}" data-url="{{urlfor "ChapterController.HasNewChapter" ":id" .Id}}">
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="2"><a href="{{urlfor "BookController.Edit" ":id" .Id}}" title="{{.Name}}">{{.Name}}</a></td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
+                                <a type="button" class="btn btn-info updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
+                                <a type="button" class="btn btn-primary toRead" link="{{urlfor "ChapterController.ListByLog" ":tag" "T_A_G" ":id" .Id}}">继续阅读</a>
+                            </div>
+                        </td>
+                        <td class="news" bid="{{.Id}}" data-url="{{urlfor "ChapterController.HasNewChapter" ":id" .Id}}">
+                        </td>
+                    </tr>
                     {{end}}
                 </table>
             </div>
             <ul id="page"></ul>
         </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加 Tag</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tag" type="text" value="tag1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="useTag" type="button" class="btn btn-primary">使用</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-    {{template "common/script.tpl"}}
+{{template "common/script.tpl"}}
+<!--消息-->
+<link href="/static/css/toastr.min.css" rel="stylesheet"/>
+<script src="/static/js/toastr.min.js"></script>
+
     <script>
         $(".updateChapter").bind("click",function () {
             var url=$(this).attr("link")
@@ -58,6 +82,30 @@
                 })
             })
         })
+
+        $(".toRead").bind("click",function () {
+            var url = $(this).attr("link");
+            console.log(url);
+            var tag = Cookies.get("__TAG");
+            if(!tag){
+                $("#useTag").attr("link",url);
+                $('#myModal').modal('show');
+                return
+            }
+            url = url.replace("T_A_G",tag);
+            window.location.href=url
+        });
+
+        //使用tag
+        $("#useTag").bind("click",function (data) {
+            var value = $("#tag").val();
+            if(value){
+                var url = $(this).attr("link");
+                url = url.replace("T_A_G",value)
+                $('#myModal').modal('hide')
+                window.location.href=url
+            }
+        });
     </script>
 </body>
 </html>
