@@ -251,4 +251,11 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:WukongController"] = append(beego.GlobalControllerRouter["web/controllers:WukongController"],
+		beego.ControllerComments{
+			Method: "Index",
+			Router: `/wukong/index`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 }

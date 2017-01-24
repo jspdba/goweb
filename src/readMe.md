@@ -123,5 +123,40 @@
     
 #主机 45.62.101.92
 [主页](http://45.62.101.92)
+    CREATE DATABASE IF NOT EXISTS beego DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+#悟空搜索模块
+    go get 
+##一个问题的解决
+    exec: "gcc": executable file not found in %PATH%
+    cc1.exe: sorry, unimplemented: 64-bit mode not compiled in
+##解决方案
+[mingw-w64 下载地址](https://sourceforge.net/projects/mingw-w64/files/latest/download)
+[mingw-w64 下载地址](http://www.mingw-w64.org/doku.php/download)
 
-CREATE DATABASE IF NOT EXISTS beego DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+    自行安装mingw 64位，即可解决。注意要将bin目录添加到%PATH%环境变量。
+    http://blog.csdn.net/mecho/article/details/24305369
+    https://sourceforge.net/projects/mingw/files/latest/download?source=files
+    https://sourceforge.net/projects/mingw-w64/files/latest/download
+    https://sourceforge.net/projects/mingw-w64/
+#go get
+    悟空搜索
+        go get -u -v github.com/huichen/wukong
+    新浪微博Go语言SDK gobo
+        //go get -u github.com/huichen/gobo
+#新浪微博
+    https://github.com/huichen/gobo
+#蓝灯
+[蓝灯 github 源码](https://github.com/getlantern/lantern)
+[蓝灯 getlantern](https://www.getlantern.org/)
+[蓝灯 github](https://github.com/getlantern/forum)
+[蓝灯最新版下载地址](https://github.com/getlantern/forum/issues/833)
+[蓝灯 网盘下载](https://ln.sync.com/dl/8d3e0f650#jm5ygm7p-qceg64ka-9pdwj8fh-vdzgsayz)
+
+
+#服务器配置信息
+- cd /opt
+- tar xzvf web.tar.gz -C web
+- cd web
+- chmod+x web
+- nohup ./web &
+- cat nohup.out
