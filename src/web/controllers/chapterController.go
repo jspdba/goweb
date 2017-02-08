@@ -19,6 +19,7 @@ func (this *ChapterController) URLMapping() {
 	this.Mapping("/chapter/pre/:id([0-9]{0,})", this.Pre)
 	this.Mapping("/chapter/save", this.SaveOrUpdate)
 	this.Mapping("/chapter/delete/:id([0-9]+)", this.Delete)
+	this.Mapping("/chapter/deletebook/:id([0-9]+)", this.DeleteBook)
 	this.Mapping("/chapter/list/:id([0-9]+)", this.List)
 	this.Mapping("/chapter/new/:id([0-9]{0,})", this.HasNewChapter)
 	this.Mapping("/chapter/list/:tag(\\w+)/:id([0-9]{0,})", this.ListByLog)
@@ -126,6 +127,17 @@ func (this *ChapterController) Delete(){
 
 	}
 }
+// @router /chapter/deletebook/:id([0-9]+)
+func (this *ChapterController) DeleteBook(){
+	id:=this.Ctx.Input.Param(":id")
+	if id!=""{
+		if i,err:=strconv.Atoi(id); err==nil{
+			models.ChapterDeleteBook(i)
+		}
+
+	}
+	this.Redirect("/book/list/", 302)
+}
 
 // @router /chapter/list/:id([0-9]{0,}) [get]
 func (this *ChapterController) List() {
@@ -154,17 +166,22 @@ func (this *ChapterController) HasNewChapter(){
 		"msg":"",
 		"data":updateCount,
 	}
-	ok,chapter:=models.FindMaxIndexChapterByBookId(id)
-	if ok{
-		if chapter.Book!=nil{
-			if chapter.Book.Url!=""{
-				chapters:= service.GetUrlInfo(chapter.Book.Url,chapter.Book.ChapterRules,-1)
-				updateCount=len(chapters)-chapter.Index
-				beego.Info(chapter.Index,len(chapters))
-				jsonMap=map[string]interface{}{
-					"code":0,
-					"data":updateCount,
-				}
+
+	ko,book:=models.FindBookByStrId(id)
+	if ko && book.Url!=""{
+		chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,-1)
+		ok,chapter:=models.FindMaxIndexChapterByBookId(id)
+		if ok{
+			updateCount=len(chapters)-chapter.Index
+			jsonMap=map[string]interface{}{
+				"code":0,
+				"data":updateCount,
+			}
+		}else{
+			updateCount=len(chapters)
+			jsonMap=map[string]interface{}{
+				"code":0,
+				"data":updateCount,
 			}
 		}
 	}
@@ -213,12 +230,12 @@ func (this *ChapterController) Update() {
 	id:=this.Ctx.Input.Param(":id")
 	if id!=""{
 		if ok,chapter:=models.FindChapterByStrId(id);ok{
-			if chapter.Content==""{
+			//if chapter.Content==""{
 				if str :=service.GetContent(chapter.Url,chapter.Book.ContentRules);str!=""{
 					chapter.Content=str
 					models.ChapterUpdate(&chapter)
 				}
-			}
+			//}
 		}
 	}
 	this.Redirect("/chapter/detail/"+id, 302)

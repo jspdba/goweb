@@ -85,6 +85,13 @@ func init() {
 
 	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
 		beego.ControllerComments{
+			Method: "DeleteBook",
+			Router: `/chapter/deletebook/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ChapterController"] = append(beego.GlobalControllerRouter["web/controllers:ChapterController"],
+		beego.ControllerComments{
 			Method: "List",
 			Router: `/chapter/list/:id([0-9]{0,})`,
 			AllowHTTPMethods: []string{"get"},
@@ -248,13 +255,6 @@ func init() {
 		beego.ControllerComments{
 			Method: "List",
 			Router: `/user/list`,
-			AllowHTTPMethods: []string{"get"},
-			Params: nil})
-
-	beego.GlobalControllerRouter["web/controllers:WukongController"] = append(beego.GlobalControllerRouter["web/controllers:WukongController"],
-		beego.ControllerComments{
-			Method: "Index",
-			Router: `/wukong/index`,
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 

@@ -44,6 +44,7 @@ func Download(wg *sync.WaitGroup,chapters []*models.Chapter,selector string){
 	defer wg.Done()
 	for _,chapter:=range chapters{
 		if chapter.Url!=""{
+			beego.Info("DownLoad="+chapter.Url)
 			content:=GetContent(chapter.Url,selector)
 			chapter.Content=content
 		}
@@ -63,6 +64,7 @@ func GetContent(url string, selector string) string{
 	if err == nil {
 		if doc != nil {
 			content:= doc.Find(selector).Text()
+			doc=nil
 			return AddLine(content)
 		}
 	}else{

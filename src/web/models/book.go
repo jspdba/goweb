@@ -157,9 +157,33 @@ func BookSaveOrUpdate(book *Book) int64{
 
 func ChapterInsertMulti(chapters []*Chapter){
 	o := orm.NewOrm()
-	if _, err :=o.InsertMulti(len(chapters),chapters);err!=nil{
-		beego.Error(err)
+	//分批插入，每次max
+	max:=1000
+	length:=len(chapters)
+	if length>0{
+		if length<=max{
+			if _, err :=o.InsertMulti(length,chapters);err!=nil{
+				beego.Error(err)
+			}
+		}else{
+			itemcount:=length/max
+			for i,start,end:=0,0,max;i<itemcount;i++{
+				cha:=chapters[start:end]
+				if _, err :=o.InsertMulti(len(cha),cha);err!=nil{
+					beego.Error(err)
+				}
+				start=end
+				end+=max
+			}
+			if(length%max!=0){
+				cha:=chapters[length-length%max:]
+				if _, err :=o.InsertMulti(len(cha),cha);err!=nil{
+					beego.Error(err)
+				}
+			}
+		}
 	}
+
 }
 
 func ChapterSaveOrUpdate(chapter *Chapter) int64{
@@ -229,11 +253,32 @@ func ChapterDelete(chapter *Chapter) bool{
 	}
 	return result
 }
+
+func ChapterDeleteBook(id int) bool{
+	o := orm.NewOrm()
+	result:=false
+	if num, err := o.QueryTable("chapter").Filter("book__id__eq", id).Delete(); err == nil {
+		if num>0{
+			result=true
+		}
+	}
+	return result
+}
 func FindBookById(id int64) (bool, Book) {
 	o := orm.NewOrm()
 	var book Book
 	err := o.QueryTable(book).Filter("Id", id).One(&book)
 	return err != orm.ErrNoRows, book
+}
+
+func FindBookByStrId(id string) (bool, Book) {
+	o := orm.NewOrm()
+	var book Book
+	if i, err := strconv.Atoi(id); err == nil {
+		err := o.QueryTable(book).Filter("Id", i).One(&book)
+		return err != orm.ErrNoRows, book
+	}
+	return false,book
 }
 func FindChapterById(id int64) (bool, Chapter) {
 	o := orm.NewOrm()
