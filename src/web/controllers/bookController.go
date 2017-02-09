@@ -6,11 +6,15 @@ import (
 	"web/utils"
 	"strconv"
 	"web/service"
+	"web/cache"
+	"time"
 )
 
 type BookController struct {
 	beego.Controller
 }
+//bm := NewBeeMap()
+//go get github.com/astaxie/beego/cache
 
 func (this *BookController) URLMapping() {
 	this.Mapping("/book/edit/:id([0-9]+)", this.Edit)
@@ -53,38 +57,44 @@ func (this *BookController) TaskUpdate() {
 		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
 			ok,book:=models.FindBookById(i)
 			if ok{
-				//更新章节
-				go (func(book *models.Book) bool{
-					if book!=nil{
-						//申请任务调度
-						if book.Url!=""{
-							chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,-1)
-							//增加index
-
-							for i:=len(chapters);i>0;i--{
-								chapters[i-1].Index=i
-							}
-							if ok,ch:=models.FindMaxIndexChapter(book);ok{
-								if ch.Index<len(chapters){
-									chapters=chapters[ch.Index:]
-								}else{
-									return false
+				tag:="cache_book_"+id
+				if !cache.IsExist(tag){
+					cache.Put(tag,time.Now().Format("2006-01-02 15:04:05"),time.Second*60*10)
+					//更新章节
+					go (func(book *models.Book) bool{
+						if book!=nil{
+							//申请任务调度
+							if book.Url!=""{
+								chapters:= service.GetUrlInfo(book.Url,book.ChapterRules,-1)
+								//增加index
+								for i:=len(chapters);i>0;i--{
+									chapters[i-1].Index=i
 								}
-							}
+								if ok,ch:=models.FindMaxIndexChapter(book);ok{
+									if ch.Index<len(chapters){
+										chapters=chapters[ch.Index:]
+									}else{
+										cache.Delete(tag)
+										return false
+									}
+								}
 
-							service.GetChapterContent(book.ContentRules,chapters,100)
-							for _,chapter := range chapters{
-								chapter.Book= book
+								service.GetChapterContent(book.ContentRules,chapters,100)
+								for _,chapter := range chapters{
+									chapter.Book= book
+								}
+								beego.Info("begin >>>>>>>>>>>>")
+								models.ChapterInsertMulti(chapters)
+								beego.Info("<<<<<<<<<<< over")
 							}
-							beego.Info("begin >>>>>>>>>>>>")
-							models.ChapterInsertMulti(chapters)
-							beego.Info("<<<<<<<<<<< over")
-
 						}
-					}
-					return true
-				})(&book)
-				json = JsonObj{Code: 0, Msg:"ok"}
+						cache.Delete(tag)
+						return true
+					})(&book)
+					json = JsonObj{Code: 0, Msg:"ok"}
+				}else{
+					json = JsonObj{Code: -1, Msg:tag+"=正在更新！更新时间="+cache.Get(tag).(string)}
+				}
 			}
 		}
 	}

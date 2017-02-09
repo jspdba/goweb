@@ -68,6 +68,8 @@
                 console.log(data)
                 if (data.code==0){
                     alert("success")
+                }else{
+                    alert(data.msg)
                 }
             })
         });
