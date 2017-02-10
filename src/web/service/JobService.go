@@ -72,6 +72,67 @@ func GetContent(url string, selector string) string{
 	}
 	return ""
 }
+//http://www.biquge.tw/81_81260/
+func GetBookInfo(url string) *models.Book{
+	doc, err := goquery.NewDocument(url)
+	book:=&models.Book{}
+	if err == nil {
+		if doc != nil {
+			name:= doc.Find("#info > h1").Text()
+			maker:= doc.Find("#info > p:nth-child(2)").Text()
+			content:= doc.Find("#intro").Text()
+			book.Name=name
+			book.Maker=maker
+			book.Content=content
+			book.ChapterRules="#list > dl > dd"
+			book.ContentRules="#content"
+			doc=nil
+			return book
+		}
+	}else{
+		beego.Error(err)
+	}
+	return book
+}
+
+func Search(key string) *models.Book{
+	key = strings.NewReplacer("\n", "", "\r", "", ";","", " ","").Replace(key)
+	/*if key!=""{
+		u,_:=url.Parse(key)
+		key=u.EscapedPath()
+	}*/
+	//#results > div.result-list > div:nth-child(1) > div.result-game-item-detail > p
+	//*[@id="results"]/div[2]/div[1]/div[2]/p
+	url:="http://zhannei.baidu.com/cse/search?ie=utf-8&q="+key+"&entry=1&s=16829369641378287696&nsid="
+	doc, err := goquery.NewDocument(url)
+	book:=&models.Book{}
+	if err == nil {
+		if doc != nil {
+			selector:="#results > div.result-list > div:nth-child(1) > div.result-game-item-detail"
+			replacer := strings.NewReplacer("\n", "", "\r", "", ";","", " ","")
+			doc.Find(selector).EachWithBreak(func(i int, contentSelection *goquery.Selection) bool{
+				name,_:= contentSelection.Find("h3 > a").Attr("title")
+				Url,_:= contentSelection.Find("h3 > a").Attr("href")
+				maker:= contentSelection.Find("div > p:nth-child(1) > span:nth-child(2)").Text()
+				maker=replacer.Replace(maker)
+				//#results > div.result-list > div:nth-child(1) > div.result-game-item-detail > p
+				content:= contentSelection.Find("p").First().Text()
+				content=replacer.Replace(content)
+				book.Name=name
+				book.Maker=maker
+				book.Content=content
+				book.ChapterRules="#list > dl > dd"
+				book.ContentRules="#content"
+				book.Url=Url
+				doc=nil
+				return false;
+			})
+		}
+	}else{
+		beego.Error(err)
+	}
+	return book
+}
 
 func AddLine(str string) string{
 	str=strings.Replace(str,"&nbsp;&nbsp;&nbsp;&nbsp;","\r\n&nbsp;&nbsp;&nbsp;&nbsp;",-1)

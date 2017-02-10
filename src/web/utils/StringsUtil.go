@@ -4,6 +4,7 @@ import (
 	"strings"
 	"unicode"
 	"strconv"
+	"github.com/henrylee2cn/mahonia"
 )
 
 
@@ -167,4 +168,9 @@ func FindDigit(str string) string{
 	str = strings.Replace(str," ","",-1)
 	str = strings.Replace(str,"第","",-1)
 	return str
+}
+
+func ParseToGBK(s string) string{
+	enc:=mahonia.NewEncoder("gbk")
+	return enc.ConvertString(s)
 }

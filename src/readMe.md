@@ -97,8 +97,6 @@
 [入门 elasticSearch](http://wiki.jikexueyuan.com/project/elasticsearch-definitive-guide-cn/)
 #chrome强制https访问解决办法
     chrome://net-internals/#hsts
-    
-# 第 5854 个帖子的url： http://www.biquge.tw/0_671/4771809.html
 #go 并发编程 例子
 [go 并发编程](http://studygolang.com/articles/2423)
 ## cookie
@@ -160,3 +158,8 @@
 - chmod+x web
 - nohup ./web &
 - cat nohup.out
+
+
+下周（2017年2月10号后的一周）开会：
+    达到什么目标
+    切身相关的

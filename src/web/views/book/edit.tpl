@@ -39,12 +39,48 @@
                 <textarea class="form-control" rows="3" id="Content" name="Content" placeholder="描述">{{.entry.Content}}</textarea>
             </div>
         </div>
+        <button id="urlInfo" type="button" class="btn btn-primary" link="{{urlfor "BookController.UrlInfo"}}">链接搜索</button>
+        <button id="search" type="button" class="btn btn-primary" link="{{urlfor "BookController.Search"}}">标题搜索</button>
         <button type="submit" class="btn btn-primary">提交</button>
     </form>
 </div><!-- /.container -->
 
 {{template "common/script.tpl"}}
 <script>
+    function trim(str){ //删除左右两端的空格
+        return str.replace(/[作者：]/g,"").replace(/(^\s*)|(\s*$)/g, "");
+    }
+    $("#urlInfo").bind("click",function () {
+        var url=$("#Url").val();
+        if(url && url.indexOf("http://www.biquge")>=0){
+            var link=$(this).attr("link")
+            $.getJSON(link,{Url:url},function (data) {
+                if(data.code==0){
+                    $("#Name").val(trim(data.result.Name))
+                    $("#Maker").val(trim(data.result.Maker))
+                    $("#ChapterRules").val(trim(data.result.ChapterRules))
+                    $("#ContentRules").val(trim(data.result.ContentRules))
+                    $("#Content").val(trim(data.result.Content))
+                }
+            })
+        }
+    })
+    $("#search").bind("click",function () {
+        var name=$("#Name").val();
+        if(name){
+            var link=$(this).attr("link")
+            $.getJSON(link,{Name:name},function (data) {
+                if(data.code==0){
+                    $("#Name").val(trim(data.result.Name))
+                    $("#Maker").val(trim(data.result.Maker))
+                    $("#ChapterRules").val(trim(data.result.ChapterRules))
+                    $("#ContentRules").val(trim(data.result.ContentRules))
+                    $("#Content").val(trim(data.result.Content))
+                    $("#Url").val(trim(data.result.Url))
+                }
+            })
+        }
+    })
 </script>
 </body>
 </html>

@@ -22,6 +22,8 @@ func (this *BookController) URLMapping() {
 	this.Mapping("/book/delete/:id([0-9]+)", this.Delete)
 	this.Mapping("/book/list", this.List)
 	this.Mapping("/book/taskUpdate/:id([0-9]{0,})", this.TaskUpdate)
+	this.Mapping("/book/url/info", this.UrlInfo)
+	this.Mapping("/book/search", this.Search)
 }
 
 // @router /book/edit/:id([0-9]{0,}) [get]
@@ -112,6 +114,49 @@ func (this *BookController) Delete(){
 		}
 
 	}
+}
+// @router /book/url/info
+func (this *BookController) UrlInfo(){
+	url:=this.GetString("Url")
+	book:=&models.Book{}
+	jsonMap:=map[string]interface{}{
+		"code":-1,
+		"msg":"no result",
+		"result":nil,
+	}
+	if url!=""{
+		book=service.GetBookInfo(url)
+		jsonMap=map[string]interface{}{
+			"code":0,
+			"msg":"",
+			"result":book,
+		}
+	}
+
+	this.Data["json"] = jsonMap
+	this.ServeJSON()
+}
+
+// @router /book/search
+func (this *BookController) Search(){
+	name:=this.GetString("Name")
+	book:=&models.Book{}
+	jsonMap:=map[string]interface{}{
+		"code":-1,
+		"msg":"no result",
+		"result":nil,
+	}
+	if name!=""{
+		book=service.Search(name)
+		jsonMap=map[string]interface{}{
+			"code":0,
+			"msg":"",
+			"result":book,
+		}
+	}
+
+	this.Data["json"] = jsonMap
+	this.ServeJSON()
 }
 
 // @router /book/list

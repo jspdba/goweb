@@ -36,6 +36,20 @@ func init() {
 
 	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
 		beego.ControllerComments{
+			Method: "UrlInfo",
+			Router: `/book/url/info`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
+			Method: "Search",
+			Router: `/book/search`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:BookController"] = append(beego.GlobalControllerRouter["web/controllers:BookController"],
+		beego.ControllerComments{
 			Method: "List",
 			Router: `/book/list`,
 			AllowHTTPMethods: []string{"get"},
