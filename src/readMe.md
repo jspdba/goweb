@@ -160,6 +160,10 @@
 - cat nohup.out
 
 
-下周（2017年2月10号后的一周）开会：
-    达到什么目标
-    切身相关的
+#下周（2017年2月10号后的一周）开会：
+##2017年自己达到什么目标
+- 做好沟通，需求确定下来，开发阶段遇到的问题及时跟后端的协调好，如果解决不了就找产品，让产品决定是否需要其它解决方案
+- 写写工具类，做做模块化，微服务的东西
+#https
+[go https 服务](http://studygolang.com/articles/2946)
+[windows https 服务](http://www.cnblogs.com/developer-ios/p/6074665.html)
