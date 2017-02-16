@@ -38,7 +38,7 @@ func (j *Job) Run() {
 		}()
 	}
 
-	beego.Debug(fmt.Sprintf("开始执行任务: %d", j.Id))
+	beego.Debug(fmt.Sprintf("开始执行任务: %s", j.Name))
 
 	j.Status++
 	defer func() {
@@ -65,17 +65,17 @@ func NewJobFromDb(j *models.Job,book *models.Book) (*Job,error) {
 	job.RunFunc = func(timeout time.Duration) bool{
 		done := make(chan bool,1)
 		go func() {
-			done <- true
+			done <- false
 		}()
+		beego.Info("cron run...")
 		service.UpdateBook(book,"cache_book_"+strconv.Itoa(j.BookId))
-
 		select {
 		case <-time.After(timeout):
 			beego.Warn(fmt.Sprintf("任务执行时间超过%d秒", int(timeout/time.Second)))
 			go func() {
 				<-done
 			}()
-			return false
+			return true
 		case ok := <-done:
 			return ok
 		}

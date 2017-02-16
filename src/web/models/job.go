@@ -24,6 +24,7 @@ func FindJobById(id string) (bool ,*Job) {
 	var job Job
 	i,er:=strconv.Atoi(id)
 	if(er!=nil){
+		beego.Error(er)
 		return false,&job
 	}
 	err := o.QueryTable(job).Filter("Id", i).One(&job)
@@ -97,6 +98,16 @@ func JobPage(p int, size int) utils.Page{
 	qs.RelatedSel().OrderBy("-CreateDate").Limit(size).Offset((p - 1) * size).All(&list)
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
+}
+
+func ResetJob(){
+	o := orm.NewOrm()
+	//执行更新
+	sql := "update Job set state=0 where State<>0"
+	_, err := o.Raw(sql).Exec()
+	if err != nil {
+		beego.Error(err)
+	}
 }
 
 func init() {

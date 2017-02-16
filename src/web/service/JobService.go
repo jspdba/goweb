@@ -192,3 +192,7 @@ func getIndex(s string) int{
 	}
 	return -1
 }
+
+func ResetJob(){
+	models.ResetJob();
+}

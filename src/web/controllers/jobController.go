@@ -5,6 +5,7 @@ import (
 	"web/models"
 	"web/utils"
 	"web/job"
+	"strconv"
 )
 
 type JobController struct {
@@ -66,11 +67,23 @@ func (this *JobController) List() {
 func (this *JobController) Start() {
 	id:=this.Ctx.Input.Param(":id")
 	ok,task := models.FindJobById(id)
+
+	refer := this.Ctx.Request.Referer()
+	if refer == "" {
+		refer = beego.URLFor("JobController.List")
+	}
+
 	if !ok {
+		beego.Error("FindJobById 出错="+id)
+		this.Redirect(refer,302)
 		return
 	}
-	okk,book:=models.FindBookByStrId(id)
+
+	bookId:=strconv.Itoa(task.BookId)
+	okk,book:=models.FindBookByStrId(bookId)
 	if !okk{
+		beego.Error("FindBookByStrId 出错="+bookId)
+		this.Redirect(refer,302)
 		return
 	}
 
@@ -84,10 +97,6 @@ func (this *JobController) Start() {
 		models.JobSaveOrUpdate(task)
 	}
 
-	refer := this.Ctx.Request.Referer()
-	if refer == "" {
-		refer = beego.URLFor("JobController.List")
-	}
 	this.Redirect(refer,302)
 }
 
