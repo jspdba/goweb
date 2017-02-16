@@ -47,9 +47,21 @@ func (this *JobController) SaveOrUpdate() {
 // @router /job/delete/:id([0-9]+)
 func (this *JobController) Delete(){
 	id:=this.Ctx.Input.Param(":id")
+	refer := this.Ctx.Request.Referer()
+	if refer == "" {
+		refer = beego.URLFor("JobController.List")
+	}
 	if id!=""{
+		ok,task := models.FindJobById(id)
+		if !ok {
+			this.Redirect(refer,302)
+			return
+		}
+		job.RemoveJob(id)
+		task.State = 0
 		models.JobDeleteById(id)
 	}
+	this.Redirect(refer,302)
 }
 
 // @router /job/list
@@ -104,23 +116,20 @@ func (this *JobController) Start() {
 // @router /job/pause/:id([0-9]+)
 func (this *JobController) Pause() {
 	id:=this.Ctx.Input.Param(":id")
-
-	ok,task := models.FindJobById(id)
-	if !ok {
-		return
-	}
-
-	job.RemoveJob(id)
-	task.State = 0
-	models.JobSaveOrUpdate(task)
-
 	refer := this.Ctx.Request.Referer()
 	if refer == "" {
 		refer = beego.URLFor("JobController.List")
 	}
+	ok,task := models.FindJobById(id)
+	if !ok {
+		this.Redirect(refer,302)
+		return
+	}
+	job.RemoveJob(id)
+	task.State = 0
+	models.JobSaveOrUpdate(task)
 	this.Redirect(refer,302)
 }
-
 // 立即执行
 // @router /job/run/:id([0-9]+)
 func (this *JobController) Run() {

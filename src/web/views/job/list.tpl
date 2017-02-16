@@ -24,7 +24,7 @@
                                 {{else}}
                                 <a type="button" class="btn btn-primary" href="{{urlfor "JobController.Pause" ":id" .Id}}">终止任务</a>
                                 {{end}}
-                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">删除任务</a>
+                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.Delete" ":id" .Id}}">删除任务</a>
                             </div>
                         </td>
                         <td>{{if eq 0 .State }} 停止 {{else}} 运行 {{end}}</td>

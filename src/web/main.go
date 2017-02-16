@@ -35,8 +35,9 @@ func init() {
 
 func main() {
 	//orm.Debug = true
-	beego.Run()
+
 	//更新数据库job为初始状态
 	service.ResetJob()
+	beego.Run()
 	//orm.RunCommand()
 }

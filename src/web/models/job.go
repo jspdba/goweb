@@ -102,12 +102,20 @@ func JobPage(p int, size int) utils.Page{
 
 func ResetJob(){
 	o := orm.NewOrm()
-	//执行更新
-	sql := "update Job set state=0 where State<>0"
-	_, err := o.Raw(sql).Exec()
+	/*//执行更新
+	err := o.Begin()
+	sql := "UPDATE job SET state=? WHERE state<>0"
+	_, err = o.Raw(sql,0).Exec()
 	if err != nil {
 		beego.Error(err)
-	}
+		o.Rollback()
+	}else{
+		o.Commit()
+	}*/
+	num, err := o.QueryTable("job").Exclude("state", 0).Update(orm.Params{
+		"state": 0,
+	})
+	beego.Info("Affected Num:", num, err)
 }
 
 func init() {
