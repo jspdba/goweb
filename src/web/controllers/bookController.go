@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"web/service"
 	"web/cache"
-	"time"
 )
 
 type BookController struct {
@@ -59,7 +58,7 @@ func (this *BookController) TaskUpdate() {
 		if i,err:=strconv.ParseInt(id, 10, 64); err==nil{
 			ok,book:=models.FindBookById(i)
 			if ok{
-				tag:="cache_book_"+id
+				/*tag:="cache_book_"+id
 				if !cache.IsExist(tag){
 					cache.Put(tag,time.Now().Format("2006-01-02 15:04:05"),time.Second*60*10)
 					//更新章节
@@ -96,6 +95,12 @@ func (this *BookController) TaskUpdate() {
 					json = JsonObj{Code: 0, Msg:"ok"}
 				}else{
 					json = JsonObj{Code: -1, Msg:tag+"=正在更新！更新时间="+cache.Get(tag).(string)}
+				}*/
+				tag:="cache_book_"+id
+				if isRunning:=service.UpdateBook(&book,tag);isRunning{
+					json = JsonObj{Code: -1, Msg:tag+"=正在更新！更新时间="+cache.Get(tag).(string)}
+				}else{
+					json = JsonObj{Code: 0, Msg:"ok"}
 				}
 			}
 		}

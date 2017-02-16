@@ -20,9 +20,9 @@
                         <td>
                             <div class="btn-group pull-right">
                                 {{if eq 0 .State }}
-                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">开启任务</a>
+                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.Start" ":id" .Id}}">开启任务</a>
                                 {{else}}
-                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">终止任务</a>
+                                <a type="button" class="btn btn-primary" href="{{urlfor "JobController.Pause" ":id" .Id}}">终止任务</a>
                                 {{end}}
                                 <a type="button" class="btn btn-primary" href="{{urlfor "JobController.List"}}">删除任务</a>
                             </div>

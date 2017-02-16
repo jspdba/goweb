@@ -16,7 +16,28 @@
         </div>
         <div class="form-group">
             <div class="col-sm-10">
+                <select class="form-control" id="BookId" name="BookId">
+                    {{range .page.List}}
+                        {{if $.entity.BookId}}
+                            {{if eq $.entity.BookId .Id}}
+                                <option value="{{.Id}}" selected="selected">{{.Name}}</option>
+                            {{else}}
+                                <option value="{{.Id}}">{{.Name}}</option>
+                            {{end}}
+                        {{else}}
+                            <option value="{{.Id}}">{{.Name}}</option>
+                        {{end}}
+                    {{end}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                {{if .entity.Cron}}
                 <input class="form-control" type="text" id="Cron" name="Cron" placeholder="cron" value="{{.entity.Cron}}">
+                {{else}}
+                <input class="form-control" type="text" id="Cron" name="Cron" placeholder="cron" value="0 0 8 * * 1-5">
+                {{end}}
             </div>
         </div>
         <div class="form-group">
@@ -30,6 +51,9 @@
 
 {{template "common/script.tpl"}}
 <script>
+    $("#BookId").bind("change",function () {
+        $("#Name").val($(":selected").html()+"_job");
+    })
 </script>
 </body>
 </html>

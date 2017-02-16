@@ -14,19 +14,20 @@ type Job struct {
 	Cron string		`orm:"null;type(text)"`
 	Content string		`orm:"null;type(text)"`
 	State int		`orm:"default(0)"`
+	BookId int		`orm:"null"`
 	CreateDate  time.Time 	`orm:"auto_now_add;type(datetime)"`
 	ModifyDate  time.Time 	`orm:"auto_now;type(datetime)"`
 }
 
-func FindJobById(id string) (bool ,Job) {
+func FindJobById(id string) (bool ,*Job) {
 	o := orm.NewOrm()
 	var job Job
 	i,er:=strconv.Atoi(id)
 	if(er!=nil){
-		return false,job
+		return false,&job
 	}
 	err := o.QueryTable(job).Filter("Id", i).One(&job)
-	return err != orm.ErrNoRows, job
+	return err != orm.ErrNoRows, &job
 }
 
 func JobInsert(job *Job) int64 {
@@ -76,6 +77,7 @@ func JobSaveOrUpdate(job *Job) int64 {
 			job.Cron = jobOld.Cron
 			job.Content = jobOld.Content
 			job.State = jobOld.State
+			job.BookId = jobOld.BookId
 			if id, err := o.Update(job); err==nil{
 				return id
 			}else{

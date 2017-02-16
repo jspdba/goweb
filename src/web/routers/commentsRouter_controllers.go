@@ -181,6 +181,27 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "Start",
+			Router: `/job/start/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "Pause",
+			Router: `/job/pause/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:JobController"] = append(beego.GlobalControllerRouter["web/controllers:JobController"],
+		beego.ControllerComments{
+			Method: "Run",
+			Router: `/job/run/:id([0-9]+)`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:LinkController"] = append(beego.GlobalControllerRouter["web/controllers:LinkController"],
 		beego.ControllerComments{
 			Method: "Edit",
