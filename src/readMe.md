@@ -159,14 +159,41 @@
 - nohup ./web &
 - cat nohup.out
 
-
-#下周（2017年2月10号后的一周）开会：
-##2017年自己达到什么目标
-- 做好沟通，需求确定下来，开发阶段遇到的问题及时跟后端的协调好，如果解决不了就找产品，让产品决定是否需要其它解决方案
-- 写写工具类，做做模块化，微服务的东西
 #https
 [go https 服务](http://studygolang.com/articles/2946)
 [windows https 服务](http://www.cnblogs.com/developer-ios/p/6074665.html)
 
 #加薪邮件范例
 [加薪](http://shenqingshu.yjbys.com/baogao/89376.html)
+
+##codis 资料
+[Codis集群的搭建与使用 - GoogSQL - 博客园](http://www.cnblogs.com/xuanzhi201111/p/4425194.html)
+[Codis 高可用负载均衡群集的搭建与使用 - 李惟忠的技术博客 - 51CTO技术博客](http://liweizhong.blog.51cto.com/1383716/1639918)
+[github codis](https://github.com/CodisLabs/codis/blob/release3.2/doc/tutorial_zh.md)
+D:\zhongliang\go\goweb\src\readMe.md
+[ubuntu 安装go](http://blog.csdn.net/sunylat/article/details/50812998)
+#ubuntu 安装go
+1. 下载地址：
+64位：https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz
+32位：https://storage.googleapis.com/golang/go1.6.linux-386.tar.gz
+2. 解压缩到想放置GO语言的位置。
+我放到了：“/usr/local/go”
+3. 配置Ubuntu的环境变量
+export GOROOT=/usr/local/go
+export GOBIN=/usr/local/go/bin
+export PATH=$PATH:$GOBIN
+#java 安装
+	http://www.cnblogs.com/a2211009/p/4265225.html
+    sudo add-apt-repository ppa:webupd8team/java
+    sudo apt-get update
+    sudo apt-get install oracle-java8-installer
+    sudo apt-get install oracle-java8-set-default
+#release版本
+https://github.com/CodisLabs/codis/releases
+http://blog.csdn.net/dc_726/article/details/47052607
+#go 下载
+http://www.golangtc.com/download
+## 无坑安装godep
+http://studygolang.com/articles/7922
+
+1. git clone https://github.com/golang/tools.git
