@@ -197,3 +197,17 @@ http://www.golangtc.com/download
 http://studygolang.com/articles/7922
 
 1. git clone https://github.com/golang/tools.git
+
+##apt-get修改源
+http://www.cnblogs.com/lyon2014/p/4715379.html
+
+#redis 下载
+https://github.com/antirez/redis-hashes/blob/master/README
+##codis 文档
+https://github.com/CodisLabs/codis/blob/release3.2/doc/tutorial_zh.md
+http://www.cnblogs.com/xuanzhi201111/p/4425194.html
+##etcd 安装
+http://www.linuxdiyf.com/linux/18212.html
+##codis 操作
+http://www.cnblogs.com/softidea/p/5365640.html
+
