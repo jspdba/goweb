@@ -4,6 +4,8 @@ import (
 	"time"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego"
+	"strconv"
+	"web/utils"
 )
 
 type ProxyIp struct {
@@ -87,6 +89,17 @@ func FindProxyIpByStrId(id string) (bool, ProxyIp) {
 	err := o.QueryTable(proxyIp).Filter("Id", id).One(&proxyIp)
 	return err != orm.ErrNoRows, proxyIp
 	return false,proxyIp
+}
+
+func ProxyIpPage(p int, size int) utils.Page{
+	o := orm.NewOrm()
+	var obj ProxyIp
+	var list []ProxyIp
+	qs := o.QueryTable(obj)
+	count, _ := qs.Limit(-1).Count()
+	qs.RelatedSel().OrderBy("-CreateDate").Limit(size).Offset((p - 1) * size).All(&list)
+	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
+	return utils.PageUtil(c, p, size, list)
 }
 func init() {
 	orm.RegisterModel(new(ProxyIp))

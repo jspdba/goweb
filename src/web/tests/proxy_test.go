@@ -10,8 +10,8 @@ import (
 
 func  TestProxyIp(t *testing.T) {
 	valid:=service.CheckProxyValid(&models.ProxyIp{
-		Ip:"111.124.7.14",
-		Port:"9999",
-	},3*time.Second)
+		Ip:"200.92.152.130",
+		Port:"8080",
+	},5*time.Second)
 	beego.Info(valid)
 }
