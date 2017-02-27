@@ -244,6 +244,13 @@ func init() {
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:LinkController"] = append(beego.GlobalControllerRouter["web/controllers:LinkController"],
+		beego.ControllerComments{
+			Method: "Import",
+			Router: `/link/ajax/import`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:ProxyIpController"] = append(beego.GlobalControllerRouter["web/controllers:ProxyIpController"],
 		beego.ControllerComments{
 			Method: "Edit",

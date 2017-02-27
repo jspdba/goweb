@@ -354,7 +354,44 @@ func FindChapterByBookIdAndIndex( bookId int, index int) (bool, Chapter) {
 	err := o.QueryTable(entity).Filter("book__id",bookId).Filter("Index", index).RelatedSel().One(&entity)
 	return err != orm.ErrNoRows, entity
 }
+func ImportRemoteBookTable(){
+	o1 := orm.NewOrm()
+	o1.Using("default")
 
+	o2 := orm.NewOrm()
+	o2.Using("remote")
+
+	var localBooks []Book
+	qs1 := o1.QueryTable("book")
+	qs1.RelatedSel().All(&localBooks)
+
+	var remoteBooks []Book
+	qs2 := o2.QueryTable("book")
+	qs2.RelatedSel().All(&remoteBooks)
+
+	result := make([]Book,0)
+
+	for _,v1:=range remoteBooks{
+		have:=false
+		for _,v2:=range localBooks{
+			if v1.Url==v2.Url{
+				have=true
+				break
+			}
+		}
+
+		if !have{
+			v1.Id=0
+			result = append(result,v1)
+		}
+	}
+
+	if len(result)>0{
+		if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
+			beego.Error(err)
+		}
+	}
+}
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))
 }

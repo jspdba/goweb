@@ -7,6 +7,7 @@ import (
 	"web/models"
 	"web/utils"
 	"strconv"
+	"web/service"
 )
 
 type LinkController struct {
@@ -30,6 +31,7 @@ func (this *LinkController) URLMapping() {
 	this.Mapping("/link/list", this.List)
 	this.Mapping("/link/info", this.Info)
 	this.Mapping("/link/ajax/post", this.PostLink)
+	this.Mapping("/link/ajax/import", this.Import)
 }
 
 // @router /link/edit/:id([0-9]{0,}) [get]
@@ -126,3 +128,9 @@ func (this *LinkController) PostLink(){
 	this.Data["json"]=jsonMap
 	this.ServeJSON()
 }
+// @router /link/ajax/import
+func (this *LinkController) Import(){
+	go service.ImportRemoteLinkTable()
+	this.Redirect("/link/list", 302)
+}
+

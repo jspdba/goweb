@@ -20,7 +20,7 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="title"><a href="/link/edit" class="btn btn-primary">添加</a></div>
+            <div class="title"><a href="/link/edit" class="btn btn-primary">添加</a><a href="{{urlfor "LinkController.Import"}}" class="btn btn-primary">远程导入</a></div>
         </div>
         <div class="panel-body">
             <div class="list-group">

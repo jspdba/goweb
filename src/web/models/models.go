@@ -61,7 +61,6 @@ func LinkReadOrCreate(link *Link, tags string) {
 	// 三个返回参数依次为：是否新创建的，对象Id值，错误
 	if _, _, err := o.ReadOrCreate(link, "Url"); err == nil {
 		if len(link.Tags) > 0 {
-			beego.Info("Link.Tags size =", len(link.Tags))
 			m2m := o.QueryM2M(link, "Tags")
 			if _, err := m2m.Add(link.Tags); err != nil {
 				beego.Error(err)
@@ -137,7 +136,6 @@ func ImportRemoteLinkTable(){
 	}
 
 	if len(result)>0{
-		beego.Info(len(result))
 		if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
 			beego.Error(err)
 		}
