@@ -210,4 +210,9 @@ http://www.cnblogs.com/xuanzhi201111/p/4425194.html
 http://www.linuxdiyf.com/linux/18212.html
 ##codis 操作
 http://www.cnblogs.com/softidea/p/5365640.html
-
+##接下来一个目标
+    开发一个app，能赚钱的
+##开发一个功能，导入远程mysql到本地库
+##mysql 开放远程访问权限
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'wuchaofei' WITH GRANT OPTION;
+    flush privileges;

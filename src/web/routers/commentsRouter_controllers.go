@@ -244,6 +244,34 @@ func init() {
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:ProxyIpController"] = append(beego.GlobalControllerRouter["web/controllers:ProxyIpController"],
+		beego.ControllerComments{
+			Method: "Edit",
+			Router: `/proxyIp/edit/:id([0-9]{0,})`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ProxyIpController"] = append(beego.GlobalControllerRouter["web/controllers:ProxyIpController"],
+		beego.ControllerComments{
+			Method: "Save",
+			Router: `/proxyIp/save`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ProxyIpController"] = append(beego.GlobalControllerRouter["web/controllers:ProxyIpController"],
+		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/proxyIp/delete/:id`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["web/controllers:ProxyIpController"] = append(beego.GlobalControllerRouter["web/controllers:ProxyIpController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/proxyIp/list`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:QrCodeController"] = append(beego.GlobalControllerRouter["web/controllers:QrCodeController"],
 		beego.ControllerComments{
 			Method: "Index",

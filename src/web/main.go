@@ -30,7 +30,11 @@ func init() {
 
 	orm.RegisterDriver("mysql",orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", beego.AppConfig.String("mysqluser") + ":" + beego.AppConfig.String("mysqlpass") + "@/beego?charset=utf8", 30)
+	orm.RegisterDataBase("remote", "mysql", beego.AppConfig.String("remote.mysqluser") + ":" + beego.AppConfig.String("remote.remysqlpass") + "@"+beego.AppConfig.String("remote.host")+":"+beego.AppConfig.String("remote.port")+"/beego?charset=utf8", 1)
 	orm.RunSyncdb("default", false, true)
+	//切换数据库
+	//o1 := orm.NewOrm()
+	//o1.Using("remote")
 }
 
 func main() {

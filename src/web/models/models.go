@@ -94,6 +94,56 @@ func LinkDelete(link *Link) bool{
 	}
 	return result
 }
+
+func ImportRemoteLinkTable(){
+	o1 := orm.NewOrm()
+	o1.Using("default")
+
+	o2 := orm.NewOrm()
+	o2.Using("remote")
+
+	var localLinks []Link
+	qs1 := o1.QueryTable("link")
+	qs1.RelatedSel().All(&localLinks)
+
+	var remoteLinks []Link
+	qs2 := o2.QueryTable("link")
+	qs2.RelatedSel().All(&remoteLinks)
+
+	result := make([]Link,0)
+
+	for _,v1:=range remoteLinks{
+		have:=false
+		for _,v2:=range localLinks{
+			if v1.Url==v2.Url{
+				have=true
+				break
+			}
+		}
+
+		if !have{
+			v1.Id=0
+			for _,t:=range v1.Tags{
+				t.Id=0
+				_, id, err := o1.ReadOrCreate(&t, "Name")
+				if err == nil {
+					t.Id=int(id)
+				}else{
+					beego.Error(err)
+				}
+			}
+			result = append(result,v1)
+		}
+	}
+
+	if len(result)>0{
+		beego.Info(len(result))
+		if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
+			beego.Error(err)
+		}
+	}
+}
+
 func init() {
 	// 需要在init中注册定义的model
 	//maxIdle := 30

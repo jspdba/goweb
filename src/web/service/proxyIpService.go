@@ -37,3 +37,6 @@ func CheckProxyValid(proxyIp *models.ProxyIp, timeout time.Duration)  bool{
 	}
 	return true
 }
+func fetchProxy(){
+
+}
