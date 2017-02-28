@@ -2,7 +2,6 @@ package test
 
 import (
 	"testing"
-	"web/models"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego"
 	"web/service"

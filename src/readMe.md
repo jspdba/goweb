@@ -216,3 +216,19 @@ http://www.cnblogs.com/softidea/p/5365640.html
 ##mysql 开放远程访问权限
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'wuchaofei' WITH GRANT OPTION;
     flush privileges;
+##golang下载地址
+    wget https://golang.org/dl/
+## golang 安装步骤
+- 查看系统位数 getconf LONG_BIT
+- wget https://golang.org/dl/
+###64位
+- wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
+- tar zxvf go1.8.linux.tar.gz -C /usr/local/
+- export GOROOT=/usr/local/go1.8
+- export PATH=$PATH:$GOROOT/bin
+###32位
+- wget https://storage.googleapis.com/golang/go1.8.linux-386.tar.gz
+- tar -xzvf go1.8.linux-386.tar.gz -C /usr/local
+- export GOROOT=/usr/local/go1.8
+- export PATH=$PATH:$GOROOT/bin
+
