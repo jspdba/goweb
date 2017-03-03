@@ -214,8 +214,11 @@ http://www.cnblogs.com/softidea/p/5365640.html
     开发一个app，能赚钱的
 ##开发一个功能，导入远程mysql到本地库
 ##mysql 开放远程访问权限
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'wuchaofei' WITH GRANT OPTION;
+    #GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'wuchaofei' WITH GRANT OPTION;
+    grant all on *.* to root@'%' identified by 'wuchaofei';
     flush privileges;
+##设置root密码
+    SET PASSWORD FOR 'root'@'localhost' = PASSWORD('wuchaofei');
 ##golang下载地址
     wget https://golang.org/dl/
 ## golang 安装步骤
@@ -231,4 +234,58 @@ http://www.cnblogs.com/softidea/p/5365640.html
 - tar -xzvf go1.8.linux-386.tar.gz -C /usr/local
 - export GOROOT=/usr/local/go1.8
 - export PATH=$PATH:$GOROOT/bin
+#mysql设置密码
+ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('wuchaofei1');
+#mysql 启动关闭 [链接](http://www.cnblogs.com/kerrycode/p/5687791.html)
+- cd /etc/init.d
+- ./mysqld stop
 
+#阅读记录
+
+校花的贴身高手 5987 第6012章 周详酒楼
+男神抽奖系统 499 第四百八十八章:最大潜能
+#mysql 卸载安装
+http://www.cnblogs.com/xiongpq/p/3384681.html
+http://www.cnblogs.com/nzplearnSite/p/5002775.html
+#清空文件内容命令
+    $ echo "" >log.log
+    > 是重写，覆盖式
+    >>是尾部追加
+#socket5协议
+>http://blog.chinaunix.net/uid-26548237-id-3434356.html
+http://blog.csdn.net/mycoolx/article/details/7496564
+http://blog.csdn.net/java2000_net/article/details/7826660
+#go 实现socket5
+>http://www.cnblogs.com/leoncfor/p/5009263.html
+https://code.aliyun.com/ygf/ytran/
+
+##switchOmega 
+[switchOmega ](https://github.com/FelisCatus/SwitchyOmega/releases)
+[使用教程](https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList)
+[pac 在线备份文件](https://raw.githubusercontent.com/wiki/FelisCatus/SwitchyOmega/GFWList.bak)
+#查看历史记录
+>history
+##linux 启动shadowsocket 
+/usr/bin/python /usr/bin/ssserver -s ::0 -p 443 -k ODVlMjhjZT -m aes-256-cfb --user nobody --workers 2 -d start
+#shadowsock 
+[一键安装脚本](https://teddysun.com/392.html)
+[github go分支](https://github.com/shadowsocks/shadowsocks-go)
+#GOPATH 修改
+D:\zhongliang\go\goweb
+D:\zhongliang\go
+#检查守护进程
+cat /etc/inetd.conf | grep -v "^#"
+#查看隐藏进程
+ps -ef|awk '{print}'|sort -n|uniq >1
+##go get 使用代理
+    http_proxy=45.62.101.92:1081 go get
+> Git config –global http.proxy "45.62.101.92:1081"
+go get
+## go 包下载
+https://my.oschina.net/idufei/blog/710198
+>摘要: go get命令下载某些包时会出现错误，其实可以通过https://gopm.io 下载，但是godep需要包必须使用版本控制，所以在可以让go get使用代理来解决。
+## gopm 包下载工具
+[github gopm](https://github.com/gpmgo/gopm)
+[gopm 官网](https://gopm.io/)
+[gopm 命令行文档](https://github.com/gpmgo/docs/blob/master/zh-CN/README.md)
+>go get -u github.com/gpmgo/gopm
