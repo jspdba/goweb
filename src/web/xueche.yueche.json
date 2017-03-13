@@ -1,0 +1,401 @@
+{
+  "data": {
+    "XnsdList": [
+      {
+        "Xnsd": "812",
+        "XnsdName": "07:00--11:30"
+      },
+      {
+        "Xnsd": "15",
+        "XnsdName": "12:30--17:00"
+      },
+      {
+        "Xnsd": "58",
+        "XnsdName": "17:30--21:00"
+      }
+    ],
+    "YyrqList": [
+      {
+        "Yyrq": "2017/03/16 17:27:45",
+        "DisplayWeek": "周四",
+        "DisplayYyrq": "03-16"
+      },
+      {
+        "Yyrq": "2017/03/15 17:27:45",
+        "DisplayWeek": "周三",
+        "DisplayYyrq": "03-15"
+      },
+      {
+        "Yyrq": "2017/03/14 17:27:45",
+        "DisplayWeek": "周二",
+        "DisplayYyrq": "03-14"
+      },
+      {
+        "Yyrq": "2017/03/13 17:27:45",
+        "DisplayWeek": "周一",
+        "DisplayYyrq": "03-13"
+      },
+      {
+        "Yyrq": "2017/03/12 17:27:45",
+        "DisplayWeek": "周日",
+        "DisplayYyrq": "03-12"
+      },
+      {
+        "Yyrq": "2017/03/11 17:27:45",
+        "DisplayWeek": "周六",
+        "DisplayYyrq": "03-11"
+      },
+      {
+        "Yyrq": "2017/03/10 17:27:45",
+        "DisplayWeek": "周五",
+        "DisplayYyrq": "03-10"
+      },
+      {
+        "Yyrq": "2017/03/09 17:27:45",
+        "DisplayWeek": "周四",
+        "DisplayYyrq": "03-09"
+      }
+    ],
+    "QsList": null,
+    "UIDatas": [
+      {
+        "Yyrq": "2017/03/16 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 3,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/16 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 1,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/16 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 9,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/15 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/15 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/15 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 9,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/14 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/14 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/14 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 7,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/13 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/13 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/13 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 4,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/12 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/12 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/12 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/11 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/11 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/11 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 2,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/10 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/10 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/10 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/09 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "812",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/09 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "15",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 0,
+        "KS": 6,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      },
+      {
+        "Yyrq": "2017/03/09 17:27:45",
+        "YyrqXH": 0,
+        "Xnsd": "58",
+        "XnsdName": null,
+        "QsName": null,
+        "Qsid": null,
+        "SL": 6,
+        "KS": 4,
+        "IsBpked": false,
+        "IsBpked_SK": 0,
+        "IsCreate": true,
+        "YyClInfo": ""
+      }
+    ]
+  },
+  "code": 0,
+  "message": ""
+}
