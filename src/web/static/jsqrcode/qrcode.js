@@ -28,7 +28,7 @@ qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 1
 qrcode.callback = null;
 
 qrcode.decode = function(src){
-    
+
     if(arguments.length==0)
     {
         var canvas_qr = document.getElementById("qr-canvas");
