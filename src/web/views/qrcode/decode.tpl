@@ -135,8 +135,9 @@
         $('#pic').pastableTextarea().on('pasteImage', function(ev, data){
 //            var blobUrl = URL.createObjectURL(data.blob);
 //            console.log(blobUrl)
-            $(this).html(data.dataURL)
-            setImg(data.dataURL)
+            var s = data.dataURL
+            $("#pic").val(s)
+            setImg(s)
 //            console.log(data.width, data.height,data.dataURL);
         }).on('pasteImageError', function(ev, data){
             console.log(data.message);
