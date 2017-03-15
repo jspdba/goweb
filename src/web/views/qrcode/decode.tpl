@@ -125,7 +125,6 @@
     $(function () {
         function setImg(data) {
             var v=jQuery.trim(data);
-            console.log(v)
             if(v && (v.indexOf("data")>-1 || v.indexOf("http")>-1)){
                 $("#theImg").attr("src",v)
             }
