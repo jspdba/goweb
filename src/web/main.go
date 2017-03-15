@@ -42,6 +42,22 @@ func main() {
 
 	//更新数据库job为初始状态
 	service.ResetJob()
+
+	/*beego.InsertFilter("*", beego.BeforeRouter,cors.Allow(&cors.Options{
+		AllowOrigins: []string{"https:/*//*.foo.com"},
+		AllowMethods: []string{"PUT", "PATCH"},
+		AllowHeaders: []string{"Origin"},
+		ExposeHeaders: []string{"Content-Length"},
+		AllowCredentials: true,
+	}))*/
+	//http://stackoverflow.com/questions/28216342/how-to-set-acces-control-allow-origin-in-beego-framework
+	/*beego.InsertFilter("*", beego.BeforeRouter,cors.Allow(&cors.Options{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET","PUT", "PATCH"},
+		AllowHeaders: []string{"Origin"},
+		ExposeHeaders: []string{"Content-Length"},
+		AllowCredentials: true,
+	}))*/
 	beego.Run()
 	//orm.RunCommand()
 }

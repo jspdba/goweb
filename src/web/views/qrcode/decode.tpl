@@ -13,27 +13,43 @@
 
 <div class="container">
     <h4>二维码解析</h4>
-
     <row>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <tr>
                     <td>
-                        <textarea autocomplete="off" data-provide="typeahead" name="pic" id="pic" placeholder="图片data" class="form-control"></textarea>
+                        <textarea autocomplete="off" data-provide="typeahead" name="pic" id="pic" placeholder="Data url" class="form-control">https://static.zhihu.com/static/revved/img/index/qr-code.d6565408.png</textarea>
                     </td>
                     <td>
                         <div class="btn-group pull-right">
-                            <button id="decode" type="button" class="btn btn-primary">解析</button>
+                            <button id="decode" type="button" class="btn btn-primary">解析二维码</button>
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <img id="theImg" src="">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="code"></div>
+                    </td>
+                </tr>
+                <!--<tr>
+                    <td>
+                        <textarea autocomplete="off" data-provide="typeahead" name="url" id="url" placeholder="图片url" class="form-control">https://static.zhihu.com/static/revved/img/index/qr-code.d6565408.png</textarea>
+                    </td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <button id="url2Cavas" type="button" class="btn btn-primary">图片转Canvas</button>
+                        </div>
+                    </td>
+                </tr>-->
+
             </table>
         </div>
     </row>
-    <div class="row">
-        <div id="code">
-        </div>
-    </div>
 </div>
 {{template "common/script.tpl"}}
 <!--消息-->
@@ -57,18 +73,80 @@
 <script type="text/javascript" src="/static/jsqrcode/findpat.js"></script>
 <script type="text/javascript" src="/static/jsqrcode/alignpat.js"></script>
 <script type="text/javascript" src="/static/jsqrcode/databr.js"></script>
+<script type="text/javascript" src="/static/paste/paste.js"></script>
 <script>
-    //解析base64图片数据
+
     $("#decode").bind("click",function () {
-        var picData=$("#pic").val();
+        var picData=$("#pic").val().trim();
         if(picData){
             qrcode.decode(picData)
             qrcode.callback=function (data) {
-                console.log(data)
                 $("#code").html(data)
             }
         }
     });
+
+    $("#url2Cavas").bind("click",function () {
+        var v=$("#url").val()
+        if(v){
+            draw("url")
+        }
+    });
+
+    /*function draw(id) {
+        // Get the canvas element and set the dimensions.
+        var canvas = document.getElementById('canvas');
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+
+        // Get a 2D context.
+        var ctx = canvas.getContext('2d');
+
+        // create new image object to use as pattern
+        var img = new Image();
+//        img.crossOrigin = "anonymous";
+        img.src = document.getElementById(id).value;
+        img.onload = function(){
+            // Create pattern and don't repeat!
+            var ptrn = ctx.createPattern(img,'no-repeat');
+             ctx.fillStyle = ptrn;
+             ctx.fillRect(0,0,canvas.width,canvas.height);
+        };
+    }*/
+
+    //canvas to dataUrl
+    /*$("#dataUrl").bind("click",function () {
+        var canvas = document.getElementById('canvas');
+        Obj.dateUrl=canvas.toDataURL("image/png")
+        $("#pic").val(Obj.dateUrl)
+    });*/
+
+    $(function () {
+        function setImg(data) {
+            var v=jQuery.trim(data);
+            console.log(v)
+            if(v && (v.indexOf("data")>-1 || v.indexOf("http")>-1)){
+                $("#theImg").attr("src",v)
+            }
+        }
+
+        //粘贴图片
+        $('#pic').pastableTextarea().on('pasteImage', function(ev, data){
+//            var blobUrl = URL.createObjectURL(data.blob);
+//            console.log(blobUrl)
+            $(this).html(data.dataURL)
+            setImg(data.dataURL)
+//            console.log(data.width, data.height,data.dataURL);
+        }).on('pasteImageError', function(ev, data){
+            console.log(data.message);
+            if(data.url){
+                console.log('But we got its url anyway:' + data.url)
+            }
+        }).on('pasteText', function(ev, data){
+//            console.log(data.text)
+            setImg(data.text)
+        });
+    })
 </script>
 </body>
 </html>

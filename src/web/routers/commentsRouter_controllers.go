@@ -286,6 +286,13 @@ func init() {
 			AllowHTTPMethods: []string{"get"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["web/controllers:QrCodeController"] = append(beego.GlobalControllerRouter["web/controllers:QrCodeController"],
+		beego.ControllerComments{
+			Method: "Decode",
+			Router: `/qr/decode`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["web/controllers:UserController"] = append(beego.GlobalControllerRouter["web/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "LoginPage",
