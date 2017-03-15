@@ -16,9 +16,10 @@
     <row>
         <div class="table-responsive">
             <table class="table table-bordered">
+                <caption>解析截图或网址</caption>
                 <tr>
                     <td>
-                        <textarea autocomplete="off" data-provide="typeahead" name="pic" id="pic" placeholder="Data url" class="form-control">https://static.zhihu.com/static/revved/img/index/qr-code.d6565408.png</textarea>
+                        <textarea autocomplete="off" data-provide="typeahead" name="pic" id="pic" placeholder="截图或网址" class="form-control"></textarea>
                     </td>
                     <td>
                         <div class="btn-group pull-right">

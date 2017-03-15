@@ -27,6 +27,14 @@
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                     <div class="tile">
+                        <img src="/static/Flat-UI/img/icons/svg/paper-bag.svg" alt="二维码解析" class="tile-image big-illustration">
+                        <h3 class="tile-title">二维码解析</h3>
+                        <p></p>
+                        <a class="btn btn-primary btn-large btn-block" href="{{urlfor "QrCodeController.Decode"}}">进入</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                    <div class="tile">
                         <img src="/static/Flat-UI/img/icons/svg/toilet-paper.svg" alt="收藏" class="tile-image big-illustration">
                         <h3 class="tile-title">收藏</h3>
                         <p></p>

@@ -29,9 +29,9 @@ qrcode.callback = null;
 
 qrcode.decode = function(src){
 
-    if(arguments.length==0)
-    {
+    if(arguments.length==0){
         var canvas_qr = document.getElementById("qr-canvas");
+        image.crossOrigin = "Anonymous";
         var context = canvas_qr.getContext('2d');
         qrcode.width = canvas_qr.width;
         qrcode.height = canvas_qr.height;
@@ -41,10 +41,15 @@ qrcode.decode = function(src){
             qrcode.callback(qrcode.result);
         return qrcode.result;
     }
-    else
-    {
+    else{
         var image = new Image();
         image.crossOrigin = "Anonymous";
+        image.onerror=function () {
+            qrcode.result = "解析错误，请黏贴截图，再解析";
+            if(qrcode.callback!=null)
+                qrcode.callback(qrcode.result);
+            return
+        };
         image.onload=function(){
             //var canvas_qr = document.getElementById("qr-canvas");
             var canvas_qr = document.createElement('canvas');
@@ -79,7 +84,7 @@ qrcode.decode = function(src){
             }
             catch(e)
             {
-                console.log(e);
+                // console.log(e);
                 qrcode.result = "error decoding QR Code";
             }
             if(qrcode.callback!=null)
@@ -89,14 +94,12 @@ qrcode.decode = function(src){
     }
 }
 
-qrcode.isUrl = function(s)
-{
+qrcode.isUrl = function(s){
     var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
     return regexp.test(s);
 }
 
-qrcode.decode_url = function (s)
-{
+qrcode.decode_url = function (s){
   var escaped = "";
   try{
     escaped = escape( s );
