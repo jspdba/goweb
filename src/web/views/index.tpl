@@ -8,7 +8,7 @@
     <div class="jumbotron">
         <h1>朋友们</h1>
         <p>这是一个神奇的世界</p>
-        <p>来体验吧</p>
+        <p><a href="https://github.com/jspdba/goweb.git" target="_blank">GitHub:https://github.com/jspdba/goweb.git</a></p>
         <p>
             <a class="btn btn-large btn-primary" type="button" role="button" href="{{urlfor "BookController.List"}}">进入 &raquo;</a>
         </p>
