@@ -104,15 +104,15 @@ func ImportRemoteLinkTable(){
 	o2 := orm.NewOrm()
 	o2.Using("remote")
 
-	var localLinks []Link
+	var localLinks []*Link
 	qs1 := o1.QueryTable("link")
 	qs1.RelatedSel().All(&localLinks)
 
-	var remoteLinks []Link
+	var remoteLinks []*Link
 	qs2 := o2.QueryTable("link")
 	qs2.RelatedSel().All(&remoteLinks)
 
-	result := make([]Link,0)
+	result := make([]*Link,0)
 
 	for _,v1:=range remoteLinks{
 		have:=false
@@ -124,10 +124,14 @@ func ImportRemoteLinkTable(){
 		}
 
 		if !have{
+			o2.LoadRelated(v1,"tags")
+			if strings.Contains(v1.Title,"用 Django"){
+				beego.Info(v1.Tags[0].Name)
+			}
 			v1.Id=0
 			for _,t:=range v1.Tags{
 				t.Id=0
-				_, id, err := o1.ReadOrCreate(&t, "Name")
+				_, id, err := o1.ReadOrCreate(t, "Name")
 				if err == nil {
 					t.Id=int(id)
 				}else{
@@ -141,6 +145,14 @@ func ImportRemoteLinkTable(){
 	if len(result)>0{
 		if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
 			beego.Error(err)
+		}
+	}
+	//插入级联关系
+	for _,v:=range result{
+		m2m := o1.QueryM2M(v, "Tags")
+		if _, err := m2m.Add(v.Tags); err != nil {
+			beego.Error(err)
+			continue
 		}
 	}
 }
