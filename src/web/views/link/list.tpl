@@ -16,6 +16,9 @@
                     <a href="{{.Url}}" title="{{.Description | html}}" target="_blank">{{.Title}}</a>
                     <a href="{{urlfor "LinkController.Delete" ":id" .Id}}">
                         <span class="badge pull-right">删除</span></a>
+                    {{range .Tags}}
+                        <span class="tag badge pull-right">{{.Name}}</span>
+                    {{end}}
                 </div>
                 {{end}}
             </div>

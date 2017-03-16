@@ -75,11 +75,14 @@ func LinkReadOrCreate(link *Link, tags string) {
 //https://github.com/lyonlai/bootstrap-paginator
 func LinkPage(p int, size int) utils.Page{
 	o := orm.NewOrm()
-	var link Link
-	var list []Link
+	var link *Link
+	var list []*Link
 	qs := o.QueryTable(link)
 	count, _ := qs.Limit(-1).Count()
 	qs.RelatedSel().OrderBy("-ModifyDate").Limit(size).Offset((p - 1) * size).All(&list)
+	for _,v :=range list{
+		o.LoadRelated(v, "tags")
+	}
 	c, _ := strconv.Atoi(strconv.FormatInt(count, 10))
 	return utils.PageUtil(c, p, size, list)
 }

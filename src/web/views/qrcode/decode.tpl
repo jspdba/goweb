@@ -7,7 +7,7 @@
     }
 </style>
 {{template "common/header_flat.tpl"}}
-<title>二维码</title>
+<title>二维码反向解析</title>
 <body>
 {{template "common/navibar.tpl"}}
 
