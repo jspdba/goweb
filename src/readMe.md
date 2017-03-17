@@ -289,3 +289,8 @@ https://my.oschina.net/idufei/blog/710198
 [gopm 官网](https://gopm.io/)
 [gopm 命令行文档](https://github.com/gpmgo/docs/blob/master/zh-CN/README.md)
 >go get -u github.com/gpmgo/gopm
+##zookeeper 下载地址
+>http://www.apache.org/dyn/closer.cgi/zookeeper/
+http://mirrors.hust.edu.cn/apache/zookeeper/stable/zookeeper-3.4.9.tar.gz
+##创建一个简单的分布式服务
+>http://www.cnblogs.com/good-temper/p/5656866.html
