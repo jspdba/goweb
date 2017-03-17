@@ -4,9 +4,9 @@ import (
 	"time"
 	"fmt"
 	"net"
-	"io/ioutil"
 	"errors"
 	"math/rand"
+	"log"
 )
 
 func CheckError(err error){
@@ -33,8 +33,9 @@ func StartClient() {
 
 	_, err = conn.Write([]byte("timestamp"))
 	CheckError(err)
-
-	result, err := ioutil.ReadAll(conn)
+	result:= make([]byte,10)
+	_,err=conn.Read(result)
+	//result, err := ioutil.ReadAll(conn)
 	CheckError(err)
 	fmt.Println(string(result))
 
@@ -49,6 +50,7 @@ func GetServerHost() (host string, err error) {
 	}
 	defer conn.Close()
 	serverList, err := GetServerList(conn)
+	log.Println(serverList)
 	if err != nil {
 		fmt.Printf(" get server list error: %s \n", err)
 		return
