@@ -137,23 +137,33 @@ func ImportRemoteLinkTable(){
 				}else{
 					beego.Error(err)
 				}
+
+				beego.Info(t)
 			}
 			result = append(result,v1)
 		}
 	}
-
 	if len(result)>0{
-		if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
+		/*if _,err:=o1.InsertMulti(len(result),&result);err!=nil{
 			beego.Error(err)
+		}*/
+		//ReadOrCreate
+		for _,v:=range result{
+			if _, id, err := o1.ReadOrCreate(v, "Url"); err == nil {
+				v.Id = int(id)
+				m2m := o1.QueryM2M(v, "Tags")
+				_, err1 := m2m.Add(v.Tags)
+				if err1!=nil{
+					beego.Error(err1)
+					continue
+				}
+			} else {
+				beego.Error(err)
+			}
+
 		}
-	}
-	//插入级联关系
-	for _,v:=range result{
-		m2m := o1.QueryM2M(v, "Tags")
-		if _, err := m2m.Add(v.Tags); err != nil {
-			beego.Error(err)
-			continue
-		}
+
+
 	}
 }
 

@@ -41,7 +41,7 @@ func init() {
 }
 
 func main() {
-	orm.Debug = true
+	orm.Debug = false
 
 	//更新数据库job为初始状态
 	service.ResetJob()
