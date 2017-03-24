@@ -421,8 +421,8 @@ func Export(id string) error{
 	}
 
 	//1.更新远程空章节，2.插入远程缺失的章节
-	var localChapterList,remoteChapterList []Chapter
-	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", remoteBook.Id).Filter("Content","").OrderBy("Index").All(remoteChapterList)
+	var localChapterList,remoteChapterList []*Chapter
+	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", remoteBook.Id).Filter("Content","").OrderBy("Index").All(&remoteChapterList)
 	if err!=nil{
 		beego.Error(err)
 		return errors.New("远程查询空章节失败="+remoteBook.Name)
@@ -432,7 +432,7 @@ func Export(id string) error{
 	for _,chapter := range remoteChapterList{
 		indexs = append(indexs,chapter.Index)
 	}
-	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index_in",indexs).OrderBy("Index").All(localChapterList)
+	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index_in",indexs).OrderBy("Index").All(&localChapterList)
 
 	//更新content值
 	for _,localChapter:=range localChapterList{
@@ -467,8 +467,8 @@ func Export(id string) error{
 		return err
 	}
 
-	var toExportChapterList []Chapter
-	_,err=localOrm.QueryTable("chapter").Filter("Book__Id__eq",localBook.Id).Filter("Index__gt",remoteChapterOfMaxIndex.Index).All(toExportChapterList)
+	var toExportChapterList []*Chapter
+	_,err=localOrm.QueryTable("chapter").Filter("Book__Id__eq",localBook.Id).Filter("Index__gt",remoteChapterOfMaxIndex.Index).All(&toExportChapterList)
 
 	if err!=nil{
 		beego.Error(err)
