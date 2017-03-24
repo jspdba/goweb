@@ -111,7 +111,7 @@
             }
         });
         $(".export").bind("click",function () {
-            var link=$(this).attr(link)
+            var link=$(this).attr("link")
 
             $.getJSON(link,function (data) {
                 if(data.code==0){
