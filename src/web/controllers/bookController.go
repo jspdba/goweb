@@ -23,6 +23,7 @@ func (this *BookController) URLMapping() {
 	this.Mapping("/book/taskUpdate/:id([0-9]{0,})", this.TaskUpdate)
 	this.Mapping("/book/url/info", this.UrlInfo)
 	this.Mapping("/book/search", this.Search)
+	this.Mapping("/book/export", this.Export)
 }
 
 // @router /book/edit/:id([0-9]{0,}) [get]
@@ -172,4 +173,24 @@ func (this *BookController) List() {
 	}
 	this.Data["page"] = models.BookPage(page.PageNo,page.PageSize)
 	this.TplName = "book/list.tpl"
+}
+
+// @router /book/export/:id([0-9]+)
+func (this *BookController) Export() {
+
+	id:=this.Ctx.Input.Param(":id")
+	err:=models.Export(id)
+	jsonMap:=map[string]interface{}{
+		"code":-1,
+		"msg":"",
+	}
+	if err!=nil{
+		jsonMap["msg"]=err.Error()
+	}else{
+		jsonMap["code"]=0
+		jsonMap["msg"]="ok"
+	}
+
+	this.Data["json"] = jsonMap
+	this.ServeJSON()
 }

@@ -21,6 +21,7 @@
                         <td>
                             <div class="btn-group pull-right">
                                 <!--<a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.DeleteBook" ":id" .Id}}">删除章节</a>-->
+                                <a type="button" class="btn btn-primary export" link="{{urlfor "BookController.Export" ":id" .Id}}">mysql上传章节</a>
                                 <a type="button" class="btn btn-primary" href="{{urlfor "ChapterController.List" ":id" .Id}}">查看章节</a>
                                 <a type="button" class="btn btn-info updateChapter" link="{{urlfor "BookController.TaskUpdate" ":id" .Id}}">更新章节</a>
                                 <a type="button" class="btn btn-primary toRead" link="{{urlfor "ChapterController.ListByLog" ":tag" "T_A_G" ":id" .Id}}">继续阅读</a>
@@ -109,6 +110,17 @@
                 window.location.href=url
             }
         });
+        $(".export").bind("click",function () {
+            var link=$(this).attr(link)
+
+            $.getJSON(link,function (data) {
+                if(data.code==0){
+                    alert("上传成功")
+                }else{
+                    alert("上传失败="+data.msg)
+                }
+            })
+        })
     </script>
 </body>
 </html>

@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"github.com/astaxie/beego"
 	"web/utils"
+	"errors"
 )
 
 type Book struct {
@@ -392,6 +393,106 @@ func ImportRemoteBookTable(){
 		}
 	}
 }
+
+func Export(id string) error{
+	//this.obj
+	localOrm := orm.NewOrm()
+	localOrm.Using("default")
+
+	remoteOrm := orm.NewOrm()
+	remoteOrm.Using("remote")
+
+	//查询远程是否有这本书
+
+	var localBook Book
+	err:=localOrm.QueryTable("book").Filter("Id",id).One(&localBook)
+	if err!=nil{
+		beego.Error(err)
+		return errors.New("参数错误！book.id="+id)
+	}
+
+	name:=localBook.Name
+
+	var remoteBook Book
+	err=remoteOrm.QueryTable("book").Filter("Name",name).One(&remoteBook)
+	if err!=nil{
+		beego.Error(err)
+		return errors.New("服务器不存在这本书="+name)
+	}
+
+	//1.更新远程空章节，2.插入远程缺失的章节
+	var localChapterList,remoteChapterList []*Chapter
+	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", remoteBook.Id).Filter("Content","").OrderBy("Index").All(remoteChapterList)
+	if err!=nil{
+		beego.Error(err)
+		return errors.New("远程查询空章节失败="+remoteBook.Name)
+	}
+	//查询本地数据
+	var indexs = []int{}
+	for _,chapter := range remoteChapterList{
+		indexs = append(indexs,chapter.Index)
+	}
+	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index_in",indexs).OrderBy("Index").All(localChapterList)
+
+	//更新content值
+	for _,localChapter:=range localChapterList{
+		for _,remoteChapter:=range remoteChapterList{
+			if localChapter.Index==remoteChapter.Index {
+				remoteChapter.Content=localChapter.Content
+				break
+			}else if remoteChapter.Index>localChapter.Index{
+				break
+			}
+		}
+	}
+	//更新远程数据库
+	p, err := remoteOrm.Raw("UPDATE chapter SET content = ? WHERE id = ?").Prepare()
+	for _,chapter:=range remoteChapterList{
+		if chapter.Content!=""{
+			_, err := p.Exec(chapter.Content, chapter.Id)
+			if err!=nil{
+				beego.Error(err)
+			}
+		}
+	}
+	p.Close()
+
+	//增加远程数据
+
+	var remoteChapterOfMaxIndex Chapter
+	err = remoteOrm.Raw("SELECT max(index) index FROM user WHERE book_id = ?", remoteBook.Id).QueryRow(&remoteChapterOfMaxIndex)
+
+	if err!=nil{
+		beego.Error(err)
+		return err
+	}
+
+	var toExportChapterList []Chapter
+	_,err=localOrm.QueryTable("chapter").Filter("Book__Id__eq",localBook.Id).Filter("Index__gt",remoteChapterOfMaxIndex.Index).All(toExportChapterList)
+
+	if err!=nil{
+		beego.Error(err)
+		return err
+	}
+
+	qs := remoteOrm.QueryTable("chapter")
+	i, _ := qs.PrepareInsert()
+
+	for _, chapter := range toExportChapterList {
+		chapter.Id = 0
+
+		chapter.Book.Id=remoteBook.Id
+
+		_, err := i.Insert(chapter)
+		if err != nil {
+			beego.Error(err)
+		}
+	}
+	i.Close()
+	return err
+}
+
+
 func init() {
 	orm.RegisterModel(new(Book), new(Chapter))
 }
