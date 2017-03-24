@@ -427,38 +427,46 @@ func Export(id string) error{
 		beego.Error(err)
 		return errors.New("远程查询空章节失败="+remoteBook.Name)
 	}
-	//查询本地数据
-	var indexs = []int{}
-	for _,chapter := range remoteChapterList{
-		indexs = append(indexs,chapter.Index)
-	}
-	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index__in",indexs).OrderBy("Index").All(&localChapterList)
 
-	//更新content值
-	for _,localChapter:=range localChapterList{
-		for _,remoteChapter:=range remoteChapterList{
-			if localChapter.Index==remoteChapter.Index {
-				remoteChapter.Content=localChapter.Content
-				break
-			}else if remoteChapter.Index>localChapter.Index{
-				break
+	if len(remoteChapterList)>0{
+		var indexs = []int{}
+		for _,chapter := range remoteChapterList{
+			indexs = append(indexs,chapter.Index)
+		}
+		//查询本地数据
+		_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index__in",indexs).OrderBy("Index").All(&localChapterList)
+
+		//更新content值
+		for _,localChapter:=range localChapterList{
+			for _,remoteChapter:=range remoteChapterList{
+				if localChapter.Index==remoteChapter.Index {
+					remoteChapter.Content=localChapter.Content
+					break
+				}else if remoteChapter.Index>localChapter.Index{
+					break
+				}
 			}
 		}
-	}
-	//更新远程数据库
-	p, err := remoteOrm.Raw("UPDATE chapter SET content = ? WHERE id = ?").Prepare()
-	for _,chapter:=range remoteChapterList{
-		if chapter.Content!=""{
-			_, err := p.Exec(chapter.Content, chapter.Id)
-			if err!=nil{
-				beego.Error(err)
+		//更新远程数据库
+		p, err := remoteOrm.Raw("UPDATE chapter SET content = ? WHERE id = ?").Prepare()
+		if err!=nil{
+			beego.Error(err)
+			p.Close()
+			return err
+		}
+		for _,chapter:=range remoteChapterList{
+			if chapter.Content!=""{
+				_, err := p.Exec(chapter.Content, chapter.Id)
+				if err!=nil{
+					beego.Error(err)
+				}
 			}
 		}
+		p.Close()
 	}
-	p.Close()
+
 
 	//增加远程数据
-
 	var remoteChapterOfMaxIndex Chapter
 	err = remoteOrm.Raw("SELECT max(index) index FROM user WHERE book_id = ?", remoteBook.Id).QueryRow(&remoteChapterOfMaxIndex)
 
