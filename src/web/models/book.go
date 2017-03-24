@@ -432,7 +432,7 @@ func Export(id string) error{
 	for _,chapter := range remoteChapterList{
 		indexs = append(indexs,chapter.Index)
 	}
-	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index_in",indexs).OrderBy("Index").All(&localChapterList)
+	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", localBook.Id).Filter("Index__in",indexs).OrderBy("Index").All(&localChapterList)
 
 	//更新content值
 	for _,localChapter:=range localChapterList{
