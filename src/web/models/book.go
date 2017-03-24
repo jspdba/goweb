@@ -421,7 +421,7 @@ func Export(id string) error{
 	}
 
 	//1.更新远程空章节，2.插入远程缺失的章节
-	var localChapterList,remoteChapterList []*Chapter
+	var localChapterList,remoteChapterList []Chapter
 	_,err = remoteOrm.QueryTable("chapter").Filter("Book__Id__eq", remoteBook.Id).Filter("Content","").OrderBy("Index").All(remoteChapterList)
 	if err!=nil{
 		beego.Error(err)
